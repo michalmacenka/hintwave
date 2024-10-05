@@ -1,19 +1,11 @@
 <?php
+require_once __DIR__ . '/common/Database.php';
+require_once __DIR__ . '/models/Hint.php';
+require_once __DIR__ . '/repositories/HintRepository.php';
+require_once __DIR__ . '/controllers/HintController.php';
 
-require_once './Database.php';
-require_once './UsersRepository.php';
+$db = new Database();
+$repository = new HintRepository($db);
+$controller = new HintController($repository);
 
-$database = new Database();
-$usersRepository = new UsersRepository($database);
-$users = $usersRepository->findAll();
-
-
-?>
-
-<h1>Users</h1>
-
-<ul>
-  <?php foreach ($users as $user) : ?>
-    <li><?php echo $user['username']; ?></li>
-  <?php endforeach; ?>
-</ul>
+$controller->showHintsView();
