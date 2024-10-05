@@ -1,0 +1,37 @@
+version: '3.8'
+services:
+  php-apache-environment:
+    container_name: php-apache
+    build:
+      context: .
+    depends_on:
+      - mysql
+    volumes:
+      - ./www:/var/www/html/
+      - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+    ports:
+        - 8000:80
+  mysql:
+    platform: linux/amd64
+    container_name: mysql
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: hintwave
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass
+    ports:
+      - "9906:3306"
+    volumes:
+      - "./db:/var/lib/mysql"
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    platform: linux/amd64
+    ports:
+      - '8080:80'
+    restart: always
+    environment:
+      PMA_HOST: mysql
+    depends_on:
+      - mysql
