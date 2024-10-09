@@ -2,25 +2,36 @@
 
 class Hint
 {
-  private $id;
-  private $userId;
-  private $title;
-  private $description;
-  private $category;
-  private $createdAt;
-  private $pros;
-  private $cons;
+  private int $id;
+  private int $user_id;
+  private string $title;
+  private string $description;
+  private Category $category;
+  /**
+   * @var Reason[] Array of Reason objects
+   */
+  private array $reasons;
+  private $created_at;
 
-  public function __construct($id, $userId, $title, $description, $category, $createdAt, $pros = [], $cons = [])
+  public function __construct($id, $user_id, $title, $description, $category, $reasons, $created_at)
   {
     $this->id = $id;
-    $this->userId = $userId;
+    $this->user_id = $user_id;
     $this->title = $title;
     $this->description = $description;
     $this->category = $category;
-    $this->createdAt = $createdAt;
-    $this->pros = $pros;
-    $this->cons = $cons;
+    $this->reasons = $reasons;
+    $this->created_at = $created_at;
+  }
+
+  public function getId()
+  {
+    return $this->id;
+  }
+
+  public function getUserId()
+  {
+    return $this->user_id;
   }
 
   public function getTitle()
@@ -33,18 +44,18 @@ class Hint
     return $this->description;
   }
 
+  public function getReasons()
+  {
+    return $this->reasons;
+  }
+
   public function getCategory()
   {
     return $this->category;
   }
 
-  public function getPros()
+  public function getCreatedAt()
   {
-    return $this->pros;
-  }
-
-  public function getCons()
-  {
-    return $this->cons;
+    return $this->created_at;
   }
 }

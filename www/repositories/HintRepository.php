@@ -2,11 +2,15 @@
 
 class HintRepository
 {
-  private $db;
+  private Database $db;
+  private CategoryRepository $categoryRepository;
+  private ReasonRepository $reasonRepository;
 
-  public function __construct(Database $db)
+  public function __construct(Database $db, CategoryRepository $categoryRepository, ReasonRepository $reasonRepository)
   {
     $this->db = $db;
+    $this->categoryRepository = $categoryRepository;
+    $this->reasonRepository = $reasonRepository;
   }
 
   public function getAllHints()
@@ -17,56 +21,23 @@ class HintRepository
     $hints = [];
     foreach ($results as $row) {
       $hintId = $row['id'];
-      $pros = $this->getProsByHintId($hintId);
-      $cons = $this->getConsByHintId($hintId);
+      $reasons = $this->reasonRepository->getReasonsByHintId($hintId);
+      $category = $this->categoryRepository->getCategoryById($row['category_id']);
 
-      $hints[] = new Hint($row['id'], $row['user_id'], $row['title'], $row['description'], $row['category'], $row['created_at'], $pros, $cons);
+      $hints[] = new Hint($hintId, $row["user_id"], $row['title'], $row['description'], $category, $reasons, $row['created_at']);
     }
     return $hints;
   }
 
-  private function getProsByHintId($hintId)
+  public function addHint(Hint $hint, array $reasons)
   {
-    $sql = "SELECT description FROM pros WHERE hint_id = ?";
-    $results = $this->db->select($sql, [$hintId]);
-    return array_column($results, 'description');
-  }
-
-  private function getConsByHintId($hintId)
-  {
-    $sql = "SELECT description FROM cons WHERE hint_id = ?";
-    $results = $this->db->select($sql, [$hintId]);
-    return array_column($results, 'description');
-  }
-
-  public function addHint($title, $description, $pros, $cons, $category)
-  {
-    $sql = "INSERT INTO hints (title, description, category, user_id) VALUES (?, ?, ?, ?)";
-    $userId = 1;
-    $this->db->insert($sql, [$title, $description, $category, $userId]);
+    $sql = "INSERT INTO hints (user_id, title, description, category_id) VALUES (?, ?, ?, ?)";
+    $this->db->insert($sql, [$hint->getUserId(), $hint->getTitle(), $hint->getDescription(), $hint->getCategory()->getId()]);
 
     $hintId = $this->db->lastInsertId();
 
-    foreach ($pros as $pro) {
-      $this->db->insert("INSERT INTO pros (hint_id, description) VALUES (?, ?)", [$hintId, $pro]);
+    foreach ($reasons as $r) {
+      $this->db->insert("INSERT INTO reasons (hint_id, value) VALUES (?, ?)", [$hintId, $r]);
     }
-
-    foreach ($cons as $con) {
-      $this->db->insert("INSERT INTO cons (hint_id, description) VALUES (?, ?)", [$hintId, $con]);
-    }
-  }
-
-  public function getPros($hintId)
-  {
-    $sql = 'SELECT description FROM pros WHERE hint_id = ?';
-    $results = $this->db->select($sql, [$hintId]);
-    return array_column($results, 'description');
-  }
-
-  public function getCons($hintId)
-  {
-    $sql = 'SELECT description FROM cons WHERE hint_id = ?';
-    $results = $this->db->select($sql, [$hintId]);
-    return array_column($results, 'description');
   }
 }

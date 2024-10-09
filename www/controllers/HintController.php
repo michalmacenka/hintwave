@@ -1,17 +1,21 @@
 <?php
+require_once __DIR__ . '/../models/Hint.php';
+
 
 class HintController
 {
-  private $repository;
+  private $hintRepository;
+  private $categoryRepository;
 
-  public function __construct(HintRepository $repository)
+  public function __construct(HintRepository $hintRepository, CategoryRepository $categoryRepository)
   {
-    $this->repository = $repository;
+    $this->hintRepository = $hintRepository;
+    $this->categoryRepository = $categoryRepository;
   }
 
   public function showHintsView()
   {
-    $hints = $this->repository->getAllHints();
+    $hints = $this->hintRepository->getAllHints();
     ob_start();
     include 'views/hints.php';
     $content = ob_get_clean();
@@ -20,16 +24,17 @@ class HintController
 
   public function showAddHintView()
   {
+    $categories = $this->categoryRepository->getAllCategories();
     ob_start();
     include 'views/add_hint.php';
     $content = ob_get_clean();
     include 'views/layout.php';
   }
 
-  public function addHint($title, $description, $pros, $cons, $category)
+  public function addHint($title, $description, $categoryId, array $reasons)
   {
-    $this->repository->addHint($title, $description, $pros, $cons, $category);
-    header('Location: index.php');
-    exit;
+    $category = $this->categoryRepository->getCategoryById($categoryId);
+    $hint = new Hint(0, 1, $title, $description, $category, [], date('Y-m-d H:i:s'));
+    $this->hintRepository->addHint($hint, $reasons); // Ensure your repository method is ready to handle this
   }
 }
