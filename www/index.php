@@ -13,4 +13,4 @@ $reasonRepository = new ReasonRepository($db);
 $hintRepository = new HintRepository($db, $categoryRepository, $reasonRepository);
 $hintController = new HintController($hintRepository, $categoryRepository);
 
-$hintController->showHintsView();
+$hintController->showRecommendedView();

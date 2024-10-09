@@ -37,4 +37,13 @@ class HintController
     $hint = new Hint(0, 1, $title, $description, $category, [], date('Y-m-d H:i:s'));
     $this->hintRepository->addHint($hint, $reasons); // Ensure your repository method is ready to handle this
   }
+
+  public function showRecommendedView()
+  {
+    $recommendedHints = $this->hintRepository->getRecommendedHintsByCategory();
+    ob_start();
+    include 'views/recommended.php';
+    $content = ob_get_clean();
+    include 'views/layout.php';
+  }
 }

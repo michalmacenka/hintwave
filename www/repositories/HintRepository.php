@@ -40,4 +40,27 @@ class HintRepository
       $this->db->insert("INSERT INTO reasons (hint_id, value) VALUES (?, ?)", [$hintId, $r]);
     }
   }
+
+
+  public function getRecommendedHintsByCategory()
+  {
+    $sql = "SELECT DISTINCT id FROM categories";
+    $categories = $this->db->select($sql);
+
+    $recommendedHints = [];
+    foreach ($categories as $categoryRow) {
+      $categoryId = $categoryRow['id'];
+      $sql = "SELECT * FROM hints WHERE category_id = :categoryId ORDER BY RAND() LIMIT 1";
+      $hint = $this->db->select($sql, [':categoryId' => $categoryId]);
+
+      if (!empty($hint)) {
+        $category = $this->categoryRepository->getCategoryById($categoryId);
+        $reasons = $this->reasonRepository->getReasonsByHintId($hint[0]['id']);
+
+        $recommendedHints[] = new Hint($hint[0]['id'], $hint[0]['user_id'], $hint[0]['title'], $hint[0]['description'], $category, $reasons, $hint[0]['created_at']);
+      }
+    }
+
+    return $recommendedHints;
+  }
 }
