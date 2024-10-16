@@ -11,8 +11,9 @@
   <header>
     <h1>HintWave</h1>
     <nav>
-      <a href="index.php">Domů</a>
-      <a href="add.php">Přidat nápad</a>
+      <a href="index.php">Home</a>
+      <a href="register.php">Register</a>
+      <a href="add.php">Add hint</a>
     </nav>
   </header>
   <main>
