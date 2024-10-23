@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/../models/Reason.php';
+
 class ReasonRepository
 {
   private Database $db;
@@ -11,9 +13,14 @@ class ReasonRepository
 
   public function getReasonsByHintId(int $hintId): array
   {
-    $sql = "SELECT value FROM reasons WHERE hint_id = ?";
+    $sql = "SELECT * FROM reasons WHERE hint_id = ?";
     $results = $this->db->select($sql, [$hintId]);
-    return array_column($results, 'value');
+
+    $reasons = [];
+    foreach ($results as $row) {
+      $reasons[] = new Reason($row['id'], $row['hint_id'], $row['value']);
+    }
+    return $reasons;
   }
 
   public function addReason(int $hintId, string $description): void

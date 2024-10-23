@@ -6,17 +6,21 @@ class HintController
 {
   private $hintRepository;
   private $categoryRepository;
+  private $authRepository;
+  private $authController;
 
-  public function __construct(HintRepository $hintRepository, CategoryRepository $categoryRepository)
+  public function __construct(HintRepository $hintRepository, CategoryRepository $categoryRepository, AuthRepository $authRepository, AuthController $authController)
   {
     $this->hintRepository = $hintRepository;
     $this->categoryRepository = $categoryRepository;
+    $this->authRepository = $authRepository;
+    $this->authController = $authController;
   }
 
   public function showHintsView()
   {
-    $hints = $this->hintRepository->getAllHints();
     ob_start();
+    $hints = $this->hintRepository->getAllHints();
     include 'views/hints.php';
     $content = ob_get_clean();
     include 'views/layout.php';
@@ -24,8 +28,8 @@ class HintController
 
   public function showAddHintView()
   {
-    $categories = $this->categoryRepository->getAllCategories();
     ob_start();
+    $categories = $this->categoryRepository->getAllCategories();
     include 'views/add_hint.php';
     $content = ob_get_clean();
     include 'views/layout.php';
@@ -33,15 +37,23 @@ class HintController
 
   public function addHint($title, $description, $categoryId, array $reasons)
   {
+    if (!$this->authRepository->isLoggedIn()) {
+      header('Location: login.php');
+      exit;
+    }
+    $user = $this->authRepository->getUser();
+
     $category = $this->categoryRepository->getCategoryById($categoryId);
-    $hint = new Hint(0, 1, $title, $description, $category, [], date('Y-m-d H:i:s'));
+    $hint = new Hint(0, $user, $title, $description, $category, [], date('Y-m-d H:i:s'));
     $this->hintRepository->addHint($hint, $reasons);
   }
 
   public function showRecommendedView()
   {
-    $recommendedHints = $this->hintRepository->getRecommendedHintsByCategory();
     ob_start();
+    $recommendedHints = $this->hintRepository->getRecommendedHintsByCategory();
+
+    $this->authController->protectedRoute();
     include 'views/recommended.php';
     $content = ob_get_clean();
     include 'views/layout.php';

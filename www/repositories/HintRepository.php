@@ -5,12 +5,14 @@ class HintRepository
   private Database $db;
   private CategoryRepository $categoryRepository;
   private ReasonRepository $reasonRepository;
+  private AuthRepository $authRepository;
 
-  public function __construct(Database $db, CategoryRepository $categoryRepository, ReasonRepository $reasonRepository)
+  public function __construct(Database $db, CategoryRepository $categoryRepository, ReasonRepository $reasonRepository, AuthRepository $authRepository)
   {
     $this->db = $db;
     $this->categoryRepository = $categoryRepository;
     $this->reasonRepository = $reasonRepository;
+    $this->authRepository = $authRepository;
   }
 
   public function getAllHints()
@@ -23,8 +25,9 @@ class HintRepository
       $hintId = $row['id'];
       $reasons = $this->reasonRepository->getReasonsByHintId($hintId);
       $category = $this->categoryRepository->getCategoryById($row['category_id']);
+      $user = $this->authRepository->getUserById($row['user_id']);
 
-      $hints[] = new Hint($hintId, $row["user_id"], $row['title'], $row['description'], $category, $reasons, $row['created_at']);
+      $hints[] = new Hint($hintId, $user, $row['title'], $row['description'], $category, $reasons, $row['created_at']);
     }
     return $hints;
   }
@@ -32,7 +35,7 @@ class HintRepository
   public function addHint(Hint $hint, array $reasons)
   {
     $sql = "INSERT INTO hints (user_id, title, description, category_id) VALUES (?, ?, ?, ?)";
-    $this->db->insert($sql, [$hint->getUserId(), $hint->getTitle(), $hint->getDescription(), $hint->getCategory()->getId()]);
+    $this->db->insert($sql, [$hint->getUser()->getId(), $hint->getTitle(), $hint->getDescription(), $hint->getCategory()->getId()]);
 
     $hintId = $this->db->lastInsertId();
 
@@ -56,8 +59,9 @@ class HintRepository
       if (!empty($hint)) {
         $category = $this->categoryRepository->getCategoryById($categoryId);
         $reasons = $this->reasonRepository->getReasonsByHintId($hint[0]['id']);
+        $user = $this->authRepository->getUserById($hint[0]['user_id']);
 
-        $recommendedHints[] = new Hint($hint[0]['id'], $hint[0]['user_id'], $hint[0]['title'], $hint[0]['description'], $category, $reasons, $hint[0]['created_at']);
+        $recommendedHints[] = new Hint($hint[0]['id'], $user, $hint[0]['title'], $hint[0]['description'], $category, $reasons, $hint[0]['created_at']);
       }
     }
 

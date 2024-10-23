@@ -3,7 +3,7 @@
 class Hint
 {
   private int $id;
-  private int $user_id;
+  private User $user;
   private string $title;
   private string $description;
   private Category $category;
@@ -13,10 +13,10 @@ class Hint
   private array $reasons;
   private $created_at;
 
-  public function __construct($id, $user_id, $title, $description, $category, $reasons, $created_at)
+  public function __construct($id, $user, $title, $description, $category, $reasons, $created_at)
   {
     $this->id = $id;
-    $this->user_id = $user_id;
+    $this->user = $user;
     $this->title = $title;
     $this->description = $description;
     $this->category = $category;
@@ -29,9 +29,9 @@ class Hint
     return $this->id;
   }
 
-  public function getUserId()
+  public function getUser()
   {
-    return $this->user_id;
+    return $this->user;
   }
 
   public function getTitle()
@@ -57,5 +57,10 @@ class Hint
   public function getCreatedAt()
   {
     return $this->created_at;
+  }
+
+  public function render(): void
+  {
+    include "components/Hint.php";
   }
 }
