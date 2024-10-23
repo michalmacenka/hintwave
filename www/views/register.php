@@ -1,3 +1,7 @@
+<?php
+require_once __DIR__ . "/../common/CSRF.php";
+?>
+
 <form action="register.php" method="post">
   <label for="username">Username:</label>
   <input type="text" name="username" id="username" required>
@@ -36,6 +40,7 @@
     }
     ?>
   </select>
+  <?php CSRF::generate(); ?>
 
   <input type="submit" value="Register">
 </form>

@@ -25,10 +25,10 @@ $user = $authRepository->getUser();
   <header>
     <h1>HintWave</h1>
     <nav>
-      <a href="index.php">Home</a>
       <a href="hints.php">All hints</a>
 
       <?php if ($isLoggedIn) : ?>
+        <a href="index.php">Home</a>
         <p>Hello, <?= $user->getUsername(); ?></p>
         <a href="logout.php">Logout</a>
         <a href="add.php">Add hint</a>

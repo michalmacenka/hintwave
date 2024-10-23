@@ -6,6 +6,8 @@ require_once __DIR__ . '/repositories/CategoryRepository.php';
 require_once __DIR__ . '/repositories/ReasonRepository.php';
 require_once __DIR__ . '/repositories/AuthRepository.php';
 require_once __DIR__ . '/controllers/AuthController.php';
+require_once __DIR__ . "/common/CSRF.php";
+
 
 $db = new Database();
 $categoryRepository = new CategoryRepository($db);
@@ -23,8 +25,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   $reasons = array_filter($_POST['reasons'] ?? []);
 
-
-  $hintController->addHint($title, $description, $categoryId, $reasons);
+  if (CSRF::validate()) {
+    $hintController->addHint($title, $description, $categoryId, $reasons);
+  } else {
+    exit('CSRF token is invalid');
+  }
 
   header('Location: index.php');
   exit;

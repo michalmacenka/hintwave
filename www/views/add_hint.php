@@ -1,3 +1,8 @@
+<?php
+require_once __DIR__ . "/../common/CSRF.php";
+
+?>
+
 <form action="add.php" method="post">
   <label for="title">Title:</label>
   <input type="text" name="title" id="title" required>
@@ -20,6 +25,8 @@
 
     <label for="reasons[]">Reason 2:</label>
     <input type="text" name="reasons[]" required>
+    <?php CSRF::generate(); ?>
+
   </div>
 
   <button type="button" id="add-reason-button">Add Another Reason</button>
