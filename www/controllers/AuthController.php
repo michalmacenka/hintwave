@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . "/../common/Validator.php";
 
 class AuthController
 {
@@ -35,17 +36,21 @@ class AuthController
 
   public function register($username, DateTime $birth, $password, $confirmPassword)
   {
+    Validator::isString($username, 'Username');
+    Validator::isPassword($password, 'Password');
+    Validator::isDate($birth, 'Birth date');
+
 
     if ($password !== $confirmPassword) {
-      throw new Exception('Passwords do not match');
+      HTTPException::sendException(400, 'Passwords do not match.');
     }
 
     if ($this->authRepository->getUserByUsername($username)) {
-      throw new Exception('User already exists');
+      HTTPException::sendException(400, 'Username already exists.');
     }
 
     if ((new DateTime())->diff($birth)->y < 15) {
-      throw new Exception('Age must be at least 15');
+      HTTPException::sendException(400, 'You must be at least 15 years old to register.');
     }
 
     $this->authRepository->registerUser($username, $birth->format('Y-m-d'), $password);
@@ -53,6 +58,9 @@ class AuthController
 
   public function login($username, $password)
   {
+    Validator::isString($username, 'Username');
+    Validator::isString($password, 'Password');
+
     $result = $this->authRepository->getUserByUsername($username);
     $passwordValid = password_verify($password, $result[0]["password"]);
     if ($result && $passwordValid) {
@@ -62,7 +70,7 @@ class AuthController
 
       header('Location: index.php');
     } else {
-      throw new Exception('Invalid username or password');
+      HTTPException::sendException(400, 'Invalid username or password.');
     }
   }
 
