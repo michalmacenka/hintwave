@@ -41,9 +41,25 @@ class HintController
       header('Location: login.php');
       exit;
     }
+
+    Validator::isString($title, 'Title', 1, 256);
+    Validator::isString($description, 'Description', 1, 1024);
+    Validator::isInt($categoryId, 'Category');
+    Validator::isStringArray($reasons, 'Reasons');
+
+
     $user = $this->authRepository->getUser();
 
     $category = $this->categoryRepository->getCategoryById($categoryId);
+
+    if ($category === null) {
+      HTTPException::sendException(400, 'Category does not exist.');
+    }
+
+    if ($user === null) {
+      HTTPException::sendException(400, 'User does not exist.');
+    }
+
     $hint = new Hint(0, $user, $title, $description, $category, [], date('Y-m-d H:i:s'));
     $this->hintRepository->addHint($hint, $reasons);
   }
