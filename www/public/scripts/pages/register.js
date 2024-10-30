@@ -106,16 +106,23 @@ document.querySelector('form').addEventListener('submit', async (event) => {
   }
 
   try {
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData.entries());
+    const data = {
+      username: form.username.value,
+      password: form.password.value,
+      confirm_password: form.confirm_password.value,
+      birth_year: form.birth_year.value,
+      birth_month: form.birth_month.value, 
+      birth_day: form.birth_day.value,
+      csrf_token: form.querySelector('input[name="csrf_token"]').value
+    };
     const response = await fetchData('POST', 'register.php', data);
-
-    if (response.code === 200) {
-      window.location.href = '/login.php';
+    if (response.status === 200) {
+      window.location.href = '/index.php';
     }
   } catch (error) {
+    console.log(error);
     const formErrorDiv = form.querySelector('.errMsg');
-    formErrorDiv.textContent = error.message;
+    formErrorDiv.textContent = error.body.message;
     formErrorDiv.style.display = 'block';
   }
 });

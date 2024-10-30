@@ -15,10 +15,8 @@ class CSRF
     echo "<input name='csrf_token' value='$token' type= 'hidden'>";
   }
 
-  public static function validate()
+  public static function validate($csrf_token)
   {
-
-    $csrf_token = $_POST['csrf_token'];
     return isset($_SESSION['csrf_token']) && $_SESSION['csrf_token'] == $csrf_token;
   }
 }

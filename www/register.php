@@ -10,15 +10,21 @@ $authController = new AuthController($authRepository);
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $username = $_POST['username'];
-  $password = $_POST['password'];
-  $confirmPassword = $_POST['confirm_password'];
+  $json = file_get_contents('php://input');
+  $data = json_decode($json, true);
 
-  $birth = new DateTime($_POST['birth_year'] . '-' . $_POST['birth_month'] . '-' . $_POST['birth_day']);
-  if (CSRF::validate()) {
-    $authController->register($username, $birth, $password, $confirmPassword);
+  if (!$data) {
+    HTTPException::sendException(400, 'Invalid JSON data');
+  }
+
+  $username = $data['username'];
+  $password = $data['password'];
+
+  $birth = new DateTime($data['birth_year'] . '-' . $data['birth_month'] . '-' . $data['birth_day']);
+  if (CSRF::validate($data['csrf_token'])) {
+    $authController->register($username, $birth, $password);
   } else {
-    exit('CSRF token is invalid');
+    HTTPException::sendException(400, 'CSRF token is invalid');
   }
 } else {
   $authController->showRegisterView();

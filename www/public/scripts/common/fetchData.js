@@ -14,18 +14,19 @@ export default async function fetchData(method, url, data) {
     };
 
     const response = await fetch(url, options);
-    
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+    const responseData = await response.json();
+    const res = {
+      status: response.status,
+      body: responseData
     }
 
-    const responseData = await response.json();
 
-    return {
-      code: response.status,
-      data: responseData,
-    };
+    if (!response.ok) {
+      throw res;
+    }
+
+    return res;
   } catch (err) {
-    throw new Error(`Failed to fetch data: ${err.message}`);
+    throw err ?? new Error('Something went wrong');
   }
 }

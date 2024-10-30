@@ -90,10 +90,19 @@ class Validator
   /**
    * Check if the value is a valid date. If not, throw an HTTPException with code 400.
    */
-  public static function isDate(mixed $value, string $fieldName, string $message = "is not a valid date"): void
+  public static function isDate($date, string $fieldName): void
   {
-    if (strtotime($value) === false) {
-      HTTPException::sendException(400, "{$fieldName} {$message}");
+    if ($date instanceof DateTime) {
+      return; // DateTime objekt je vždy validní datum
+    }
+
+    if (!is_string($date)) {
+      throw new Exception("$fieldName must be a valid date string or DateTime object.");
+    }
+
+    $timestamp = strtotime($date);
+    if ($timestamp === false) {
+      throw new Exception("$fieldName must be a valid date.");
     }
   }
 

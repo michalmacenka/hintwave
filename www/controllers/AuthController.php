@@ -34,16 +34,11 @@ class AuthController
     include 'views/layout.php';
   }
 
-  public function register($username, DateTime $birth, $password, $confirmPassword)
+  public function register($username, DateTime $birth, $password)
   {
     Validator::isString($username, 'Username', 3, 35);
     Validator::isPassword($password, 'Password');
     Validator::isDate($birth, 'Birth date');
-
-
-    if ($password !== $confirmPassword) {
-      HTTPException::sendException(400, 'Passwords do not match.');
-    }
 
     if ($this->authRepository->getUserByUsername($username)) {
       HTTPException::sendException(400, 'Username already exists.');
@@ -54,6 +49,7 @@ class AuthController
     }
 
     $this->authRepository->registerUser($username, $birth->format('Y-m-d'), $password);
+    $this->login($username, $password);
   }
 
   public function login($username, $password)
@@ -67,8 +63,7 @@ class AuthController
       $user = new User($result[0]["id"], $result[0]["username"], $result[0]["birth"], $result[0]["role"], $result[0]["created_at"]);
       $this->authRepository->startSession();
       $this->authRepository->setUser($user);
-
-      header('Location: index.php');
+      HTTPException::sendException(200, 'User logged in successfully.');
     } else {
       HTTPException::sendException(400, 'Invalid username or password.');
     }
