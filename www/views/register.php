@@ -10,8 +10,7 @@ require_once __DIR__ . "/../common/CSRF.php";
   }
 </style>
 
-<form action="register.php" method="post">
-  <div class="errMsg"></div>
+<form>
 
   <label for="username">Username:</label>
   <input type="text" name="username" id="username" required>
@@ -60,6 +59,8 @@ require_once __DIR__ . "/../common/CSRF.php";
   <?php CSRF::generate(); ?>
 
   <input type="submit" value="Register">
+  <div class="errMsg" id="globalErrMsg"></div>
+
 </form>
 
 <script src="/public/scripts/pages/register.js" type="module"></script>

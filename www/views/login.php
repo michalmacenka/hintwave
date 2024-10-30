@@ -10,20 +10,18 @@ require_once __DIR__ . "/../common/CSRF.php";
   }
 </style>
 
-<form action="login.php" method="post">
-  <div class="errMsg"></div>
+<form>
 
   <label for="username">Username:</label>
   <input type="text" name="username" id="username" required>
-  <div class="errMsg"></div>
 
   <label for="password">Password:</label>
   <input type="password" name="password" id="password" required>
-  <div class="errMsg"></div>
 
   <?php CSRF::generate(); ?>
 
   <input type="submit" value="Login">
+  <div class="errMsg" id="globalErrMsg"></div>
 </form>
 
 <script src="/public/scripts/pages/login.js" type="module"></script>

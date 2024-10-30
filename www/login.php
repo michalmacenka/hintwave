@@ -11,12 +11,19 @@ $authController = new AuthController($authRepository);
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $username = $_POST['username'];
-  $password = $_POST['password'];
-  if (CSRF::validate()) {
+  $json = file_get_contents('php://input');
+  $data = json_decode($json, true);
+
+  if (!$data) {
+    HTTPException::sendException(400, 'Invalid JSON data');
+  }
+
+  $username = $data['username'];
+  $password = $data['password'];
+  if (CSRF::validate($data['csrf_token'])) {
     $authController->login($username, $password);
   } else {
-    exit('CSRF token is invalid');
+    HTTPException::sendException(400, 'CSRF token is invalid');
   }
 } else {
   $authController->showLoginView();

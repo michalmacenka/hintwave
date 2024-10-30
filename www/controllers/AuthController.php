@@ -58,15 +58,16 @@ class AuthController
     Validator::isString($password, 'Password');
 
     $result = $this->authRepository->getUserByUsername($username);
-    $passwordValid = password_verify($password, $result[0]["password"]);
-    if ($result && $passwordValid) {
-      $user = new User($result[0]["id"], $result[0]["username"], $result[0]["birth"], $result[0]["role"], $result[0]["created_at"]);
-      $this->authRepository->startSession();
-      $this->authRepository->setUser($user);
-      HTTPException::sendException(200, 'User logged in successfully.');
-    } else {
-      HTTPException::sendException(400, 'Invalid username or password.');
+    if ($result) {
+      $passwordValid = password_verify($password, $result[0]["password"]);
+      if ($result && $passwordValid) {
+        $user = new User($result[0]["id"], $result[0]["username"], $result[0]["birth"], $result[0]["role"], $result[0]["created_at"]);
+        $this->authRepository->startSession();
+        $this->authRepository->setUser($user);
+        HTTPException::sendException(200, 'User logged in successfully.');
+      }
     }
+    HTTPException::sendException(400, 'Invalid username or password.');
   }
 
 

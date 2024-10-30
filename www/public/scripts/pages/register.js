@@ -120,14 +120,13 @@ document.querySelector('form').addEventListener('submit', async (event) => {
       window.location.href = '/index.php';
     }
   } catch (error) {
-    console.log(error);
-    const formErrorDiv = form.querySelector('.errMsg');
+    const formErrorDiv = form.querySelector('#globalErrMsg');
     formErrorDiv.textContent = error.body.message;
     formErrorDiv.style.display = 'block';
   }
 });
 
-function showError(input, message) {
+const showError = (input, message) => {
   const errorDiv = input.nextElementSibling;
   if (errorDiv && errorDiv.className === 'errMsg') {
     errorDiv.textContent = message;
