@@ -36,7 +36,7 @@ class AuthController
 
   public function register($username, DateTime $birth, $password, $confirmPassword)
   {
-    Validator::isString($username, 'Username');
+    Validator::isString($username, 'Username', 3, 35);
     Validator::isPassword($password, 'Password');
     Validator::isDate($birth, 'Birth date');
 
