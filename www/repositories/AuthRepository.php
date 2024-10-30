@@ -11,12 +11,12 @@ class AuthRepository
     $this->db = $db;
   }
 
-  public function registerUser($username, $birth, $password)
+  public function registerUser($username, $birth, $password): int
   {
     $sql = "INSERT INTO users (username, password, birth) VALUES (?, ?, ?)";
     $hash = password_hash($password, PASSWORD_BCRYPT);
 
-    $this->db->insert($sql, [$username, $hash, $birth]);
+    return $this->db->insert($sql, [$username, $hash, $birth]);
   }
 
   public function getUserByUsername(string $username)

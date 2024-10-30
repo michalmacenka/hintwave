@@ -42,4 +42,10 @@ class User
   {
     return $this->created_at;
   }
+
+  public function getProfileImage(): string
+  {
+    $path = __DIR__ . '/../public/uploads/profiles/' . $this->id . '.webp';
+    return file_exists($path) ? $this->id . '.webp' : 'default.webp';
+  }
 }

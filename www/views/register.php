@@ -24,6 +24,7 @@ require_once __DIR__ . "/../common/CSRF.php";
   <input type="password" name="confirm_password" id="confirm_password" required>
   <div class="errMsg"></div>
 
+
   <div class="birthDateGroup">
     <label for="birth_year">Year of Birth:</label>
     <select name="birth_year" id="birth_year" required>
@@ -55,6 +56,12 @@ require_once __DIR__ . "/../common/CSRF.php";
     </select>
     <div class="errMsg"></div>
   </div>
+  <label for="profile_image">Profile Image:</label>
+  <input type="file"
+    name="profile_image"
+    id="profile_image"
+    accept="image/jpeg,image/png,image/webp">
+  <div class="errMsg"></div>
 
   <?php CSRF::generate(); ?>
 

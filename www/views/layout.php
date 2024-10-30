@@ -19,6 +19,20 @@ $user = $authRepository->getUser();
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HintWave</title>
+  <style>
+    .profile-section {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .profile-image {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  </style>
 </head>
 
 <body>
@@ -29,7 +43,13 @@ $user = $authRepository->getUser();
 
       <?php if ($isLoggedIn) : ?>
         <a href="index.php">Home</a>
-        <p>Hello, <?= $user->getUsername(); ?></p>
+        <div class="profile-section">
+          <img
+            src="public/uploads/profiles/<?= $user->getProfileImage() ?>"
+            alt="Profile picture of <?= htmlspecialchars($user->getUsername()) ?>"
+            class="profile-image">
+          <p>Hello, <?= htmlspecialchars($user->getUsername()) ?></p>
+        </div>
         <a href="logout.php">Logout</a>
         <a href="add.php">Add hint</a>
       <?php else : ?>

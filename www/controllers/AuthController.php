@@ -1,5 +1,7 @@
 <?php
 require_once __DIR__ . "/../common/Validator.php";
+require_once __DIR__ . '/../common/ImageProcessor.php';
+
 
 class AuthController
 {
@@ -34,11 +36,12 @@ class AuthController
     include 'views/layout.php';
   }
 
-  public function register($username, DateTime $birth, $password)
+  public function register($username, DateTime $birth, $password, ?array $profileImage = null)
   {
     Validator::isString($username, 'Username', 3, 35);
     Validator::isPassword($password, 'Password');
     Validator::isDate($birth, 'Birth date');
+    Validator::isProfileImage($profileImage, 'Profile image');
 
     if ($this->authRepository->getUserByUsername($username)) {
       HTTPException::sendException(400, 'Username already exists.');
@@ -48,7 +51,23 @@ class AuthController
       HTTPException::sendException(400, 'You must be at least 15 years old to register.');
     }
 
-    $this->authRepository->registerUser($username, $birth->format('Y-m-d'), $password);
+    $userId = $this->authRepository->registerUser($username, $birth->format('Y-m-d'), $password);
+
+    if ($profileImage) {
+      try {
+        $imageData = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $profileImage['data']));
+
+        $tmpFile = tempnam(sys_get_temp_dir(), 'profile_');
+        file_put_contents($tmpFile, $imageData);
+
+        ImageProcessor::processProfileImage($tmpFile, $userId);
+
+        unlink($tmpFile);
+      } catch (Exception $e) {
+        HTTPException::sendException(500, 'Failed to process profile image.');
+      }
+    }
+
     $this->login($username, $password);
   }
 

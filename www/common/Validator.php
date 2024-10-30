@@ -116,13 +116,28 @@ class Validator
     }
   }
 
-  /**
-   * Check if the value is within a given range. If not, throw an HTTPException with code 400.
-   */
-  public static function isInRange(int $value, int $min, int $max, string $fieldName, string $message = "is not within the valid range"): void
+  public static function isProfileImage(?array $profileImage, string $fieldName): void
   {
-    if ($value < $min || $value > $max) {
-      HTTPException::sendException(400, "{$fieldName} {$message}");
+    if (empty($profileImage)) {
+      return;
+    }
+
+    if (!isset($profileImage['data']) || !isset($profileImage['type']) || !isset($profileImage['size'])) {
+      HTTPException::sendException(400, "Invalid {$fieldName} data format");
+    }
+
+    $maxSize = 5 * 1024 * 1024; // 5MB
+    if ($profileImage['size'] > $maxSize) {
+      HTTPException::sendException(400, "{$fieldName} must be smaller than 5MB");
+    }
+
+    $allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+    if (!in_array($profileImage['type'], $allowedTypes)) {
+      HTTPException::sendException(400, "{$fieldName} must be JPEG, PNG or WebP image");
+    }
+
+    if (!preg_match('/^data:image\/(\w+);base64,/', $profileImage['data'])) {
+      HTTPException::sendException(400, "Invalid {$fieldName} format");
     }
   }
 }

@@ -18,11 +18,12 @@ class HTTPException extends Exception
 
   public static function sendException(int $code = 500, string $message = ""): void
   {
+    if (!headers_sent()) {
+      http_response_code($code);
+      header('Content-Type: application/json');
+    }
+
     $exception = new HTTPException($code, $message);
-
-    http_response_code($code);
-    header("Content-type: application/json; charset=utf-8");
-
     die($exception->toJSON());
   }
 }

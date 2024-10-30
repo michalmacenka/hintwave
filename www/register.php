@@ -19,10 +19,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   $username = $data['username'];
   $password = $data['password'];
+  $profileImage = isset($data['profile_image']) ? $data['profile_image'] : null;
 
   $birth = new DateTime($data['birth_year'] . '-' . $data['birth_month'] . '-' . $data['birth_day']);
   if (CSRF::validate($data['csrf_token'])) {
-    $authController->register($username, $birth, $password);
+    $authController->register($username, $birth, $password, $profileImage);
   } else {
     HTTPException::sendException(400, 'CSRF token is invalid');
   }

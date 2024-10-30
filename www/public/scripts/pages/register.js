@@ -69,6 +69,28 @@ document.querySelector('form').addEventListener('submit', async (event) => {
     });
   }
 
+    // Validate image if uploaded
+    const imageInput = form.profile_image;
+    if (imageInput.files.length > 0) {
+      const file = imageInput.files[0];
+      const maxSize = 5 * 1024 * 1024; // 5MB
+      const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+  
+      if (!allowedTypes.includes(file.type)) {
+        errors.push({
+          field: imageInput,
+          message: 'Please upload JPEG, PNG or WebP image'
+        });
+      }
+  
+      if (file.size > maxSize) {
+        errors.push({
+          field: imageInput,
+        message: 'Image must be smaller than 5MB'
+      });
+    }
+  }
+
   // Validate birth date
   const year = parseInt(form.birth_year.value);
   const month = parseInt(form.birth_month.value);
@@ -115,6 +137,23 @@ document.querySelector('form').addEventListener('submit', async (event) => {
       birth_day: form.birth_day.value,
       csrf_token: form.querySelector('input[name="csrf_token"]').value
     };
+
+    
+    const imageFile = form.profile_image.files[0];
+    if (imageFile) {
+        const base64Image = await new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result);
+            reader.readAsDataURL(imageFile);
+        });
+        data.profile_image = {
+            data: base64Image,
+            type: imageFile.type,
+            size: imageFile.size
+        };
+    }
+
+    
     const response = await fetchData('POST', 'register.php', data);
     if (response.status === 200) {
       window.location.href = '/index.php';
