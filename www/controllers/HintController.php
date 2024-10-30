@@ -45,10 +45,13 @@ class HintController
     Validator::isString($title, 'Title', 1, 256);
     Validator::isString($description, 'Description', 1, 1024);
     Validator::isInt($categoryId, 'Category');
-    Validator::isStringArray($reasons, 'Reasons');
+    Validator::isStringArray($reasons, 'Reasons', 2, 12, 3, 64);
 
 
     $user = $this->authRepository->getUser();
+    if ($user === null) {
+      HTTPException::sendException(400, 'User does not exist.');
+    }
 
     $category = $this->categoryRepository->getCategoryById($categoryId);
 
@@ -56,12 +59,10 @@ class HintController
       HTTPException::sendException(400, 'Category does not exist.');
     }
 
-    if ($user === null) {
-      HTTPException::sendException(400, 'User does not exist.');
-    }
 
     $hint = new Hint(0, $user, $title, $description, $category, [], date('Y-m-d H:i:s'));
     $this->hintRepository->addHint($hint, $reasons);
+    HTTPException::sendException(200, 'Hint added successfully.');
   }
 
   public function showRecommendedView()

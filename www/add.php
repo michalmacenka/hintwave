@@ -18,20 +18,21 @@ $hintRepository = new HintRepository($db, $categoryRepository, $reasonRepository
 $hintController = new HintController($hintRepository, $categoryRepository, $authRepository, $authController);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  $json = file_get_contents('php://input');
+  $data = json_decode($json, true);
 
-  $title = $_POST['title'];
-  $description = $_POST['description'];
-  $categoryId = $_POST['category'];
+  $title = $data['title'];
+  $description = $data['description'];
+  $categoryId = $data['category'];
 
-  $reasons = array_filter($_POST['reasons'] ?? []);
+  $reasons = array_filter($data['reasons'] ?? []);
 
-  if (CSRF::validate()) {
+  if (CSRF::validate($data['csrf_token'])) {
     $hintController->addHint($title, $description, $categoryId, $reasons);
   } else {
-    exit('CSRF token is invalid');
+    HTTPException::sendException(400, 'CSRF token is invalid');
   }
 
-  header('Location: index.php');
   exit;
 } else {
   $hintController->showAddHintView();

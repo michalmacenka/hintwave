@@ -50,14 +50,24 @@ class Validator
   /**
    * Check if the value is an array of strings. If not, throw an HTTPException with code 400.
    */
-  public static function isStringArray(mixed $value, string $fieldName, string $message = "is not a string array"): void
+  public static function isStringArray(mixed $value, string $fieldName, ?int $minArrayLength = null, ?int $maxArrayLength = null, ?int $minLength = null, ?int $maxLength = null, string $message = "is not a string array"): void
   {
     if (!is_array($value)) {
       HTTPException::sendException(400, "{$fieldName} {$message}");
     }
 
+    $arrayLength = count($value);
+
+    if ($minArrayLength !== null && $arrayLength < $minArrayLength) {
+      HTTPException::sendException(400, "{$fieldName} must contain at least {$minArrayLength} items");
+    }
+
+    if ($maxArrayLength !== null && $arrayLength > $maxArrayLength) {
+      HTTPException::sendException(400, "{$fieldName} must contain no more than {$maxArrayLength} items");
+    }
+
     foreach ($value as $element) {
-      Validator::isString($element, $fieldName, $message);
+      Validator::isString($element, $fieldName, $minLength, $maxLength);
     }
   }
 
