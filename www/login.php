@@ -18,8 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     HTTPException::sendException(400, 'Invalid JSON data');
   }
 
-  $username = $data['username'];
-  $password = $data['password'];
+  $username = trim($data['username']);
+  $password = trim($data['password']);
   if (CSRF::validate($data['csrf_token'])) {
     $authController->login($username, $password);
   } else {

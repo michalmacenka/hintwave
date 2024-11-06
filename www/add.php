@@ -21,11 +21,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $json = file_get_contents('php://input');
   $data = json_decode($json, true);
 
-  $title = $data['title'];
-  $description = $data['description'];
-  $categoryId = $data['category'];
+  $title = trim($data['title']);
+  $description = trim($data['description']);
+  $categoryId = trim($data['category']);
 
-  $reasons = array_filter($data['reasons'] ?? []);
+  $reasons = array_map('trim', array_filter($data['reasons'] ?? []));
 
   if (CSRF::validate($data['csrf_token'])) {
     $hintController->addHint($title, $description, $categoryId, $reasons);
