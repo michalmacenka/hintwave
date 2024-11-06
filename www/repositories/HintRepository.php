@@ -44,6 +44,12 @@ class HintRepository
     }
   }
 
+  public function deleteHint(int $hintId)
+  {
+    $sql = "DELETE FROM hints WHERE id = ?";
+    $this->db->delete($sql, [$hintId]);
+  }
+
 
   public function getRecommendedHintsByCategory()
   {

@@ -33,9 +33,14 @@ class User
     return $this->birth;
   }
 
-  public function getRole()
+  public function getRole(): int
   {
-    return $this->role;
+    return (int) $this->role;
+  }
+
+  public function isAdmin(): bool
+  {
+    return $this->getRole() === 1;
   }
 
   public function getCreatedAt()

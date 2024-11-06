@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../common/Database.php';
 require_once __DIR__ . '/../repositories/AuthRepository.php';
-
+require_once __DIR__ . '/../common/CSRF.php';
 
 $db = new Database();
 $authRepository = new AuthRepository($db);
@@ -48,7 +48,7 @@ $user = $authRepository->getUser();
             src="public/uploads/profiles/<?= $user->getProfileImage() ?>"
             alt="Profile picture of <?= htmlspecialchars($user->getUsername()) ?>"
             class="profile-image">
-          <p>Hello, <?= htmlspecialchars($user->getUsername()) ?></p>
+          <p>Hello, <?= htmlspecialchars($user->getUsername()) ?> <span class="role-badge"><?= $user->getRole() === 1 ? 'Admin' : '' ?></span> </p>
         </div>
         <a href="logout.php">Logout</a>
         <a href="add.php">Add hint</a>
@@ -65,5 +65,6 @@ $user = $authRepository->getUser();
     <?php echo $content; ?>
   </main>
 </body>
+<script src="/public/scripts/pages/admin.js" type="module"></script>
 
 </html>

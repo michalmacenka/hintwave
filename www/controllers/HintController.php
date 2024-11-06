@@ -35,6 +35,7 @@ class HintController
     include 'views/layout.php';
   }
 
+
   public function addHint($title, $description, $categoryId, array $reasons)
   {
     if (!$this->authRepository->isLoggedIn()) {
@@ -74,5 +75,19 @@ class HintController
     include 'views/recommended.php';
     $content = ob_get_clean();
     include 'views/layout.php';
+  }
+
+  public function deleteHint(int $hintId)
+  {
+    Validator::isInt($hintId, 'Hint ID');
+    $user = $this->authRepository->getUser();
+
+    if ($user === null || !$user->isAdmin()) {
+      HTTPException::sendException(403, 'Forbidden');
+    }
+
+    $this->authController->verifyUserRole($user->getId(), 1);
+    $this->hintRepository->deleteHint($hintId);
+    HTTPException::sendException(200, 'Hint deleted successfully.');
   }
 }

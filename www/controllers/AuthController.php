@@ -114,4 +114,13 @@ class AuthController
       }
     }
   }
+
+  public function verifyUserRole(int $userId, int $role)
+  {
+    $this->authRepository->startSession();
+    $user = $this->authRepository->getUser();
+    if ($user->getId() !== $userId || $user->getRole() !== $role) {
+      HTTPException::sendException(403, 'Forbidden');
+    }
+  }
 }

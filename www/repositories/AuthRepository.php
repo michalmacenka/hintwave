@@ -63,12 +63,13 @@ class AuthRepository
     return isset($_SESSION['user']);
   }
 
+
   public function getUser()
   {
     $this->startSession();
     if (isset($_SESSION['user'])) {
-      $user = $_SESSION['user'];
-      return new User($user['id'], $user['username'], $user['birth'], $user['role'], $user['created_at']);
+      $user = $this->getUserById($_SESSION['user']['id']);
+      return $user;
     }
   }
 
