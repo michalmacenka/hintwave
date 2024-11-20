@@ -19,39 +19,33 @@ $user = $authRepository->getUser();
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HintWave</title>
-  <style>
-    .profile-section {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="/public/styles/main.css">
 
-    .profile-image {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-  </style>
+  <!-- <meta http-equiv="refresh" content="3"> * FOR DEV* -->
 </head>
 
 <body>
   <header>
-    <h1>HintWave</h1>
     <nav>
-      <a href="hints.php">All hints</a>
+      <h1 class="text-lg">HintWave</h1>
+      <div class="flex gap-md grow">
+        <a href=" hints.php">All hints</a>
+        <?php if ($isLoggedIn) : ?>
+          <a href="index.php" class="grow">Recommended</a>
+        <?php endif; ?>
+      </div>
 
       <?php if ($isLoggedIn) : ?>
-        <a href="index.php">Home</a>
+        <a href="add.php">Add hint</a>
+        <a href="logout.php" class="text-danger">Logout</a>
         <div class="profile-section">
           <img
             src="public/uploads/profiles/<?= $user->getProfileImage() ?>"
             alt="Profile picture of <?= htmlspecialchars($user->getUsername()) ?>"
             class="profile-image">
-          <p>Hello, <?= htmlspecialchars($user->getUsername()) ?> <span class="role-badge"><?= $user->getRole() === 1 ? 'Admin' : '' ?></span> </p>
+          <p class="font-bold"><?= htmlspecialchars($user->getUsername()) ?> <span class="role-badge"><?= $user->getRole() === 1 ? 'Admin' : '' ?></span> </p>
         </div>
-        <a href="logout.php">Logout</a>
-        <a href="add.php">Add hint</a>
       <?php else : ?>
         <a href="login.php">Login</a>
         <a href="register.php">Register</a>
@@ -61,10 +55,11 @@ $user = $authRepository->getUser();
 
 
   </header>
-  <main>
+  <main class="container">
     <?php echo $content; ?>
   </main>
 </body>
 <script src="/public/scripts/pages/admin.js" type="module"></script>
+<link rel="stylesheet" href="/public/styles/scoped/layout.css">
 
 </html>

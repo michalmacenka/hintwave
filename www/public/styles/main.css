@@ -1,0 +1,33 @@
+@import 'global/reset.css';
+@import 'global/base.css';
+@import 'global/utilities.css';
+@import 'global/form.css';
+
+
+.badge {
+  border-radius: 9999px;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  white-space: nowrap;
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
+.reason {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: var(--radius-md);
+  border: var(--color-success) 1px solid;
+  background-color: var(--color-success-light);
+  color: var(--color-success) !important;
+  width: fit-content;
+  padding: var(--spacing-xs) var(--spacing-sm) !important;
+}
+
+.reason > p::first-letter {
+  text-transform: capitalize;
+}

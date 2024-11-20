@@ -29,6 +29,79 @@ monthSelect.addEventListener('change', updateDays);
 window.onload = updateDays;
 
 
+// Image upload
+document.addEventListener('DOMContentLoaded', () => {
+  const dropArea = document.getElementById('dropArea');
+  const fileInput = document.getElementById('profile_image');
+  const browseBtn = document.querySelector('.browse-btn');
+  const previewArea = document.querySelector('.preview-area');
+  const imagePreview = document.getElementById('imagePreview');
+  const removeBtn = document.querySelector('.remove-btn');
+  const fileInfo = document.querySelector('.file-info');
+  const dropMessage = document.querySelector('.drop-message');
+  const uploadIcon = dropMessage.querySelector('i');
+  const dragDropText = dropMessage.querySelector('p');
+
+  browseBtn.onclick = () => fileInput.click();
+
+  ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(event => {
+    dropArea.addEventListener(event, e => {
+      e.preventDefault();
+      e.stopPropagation();
+    });
+  });
+
+  dropArea.addEventListener('dragenter', () => dropArea.classList.add('dragover'));
+  dropArea.addEventListener('dragover', () => dropArea.classList.add('dragover'));
+  dropArea.addEventListener('dragleave', () => dropArea.classList.remove('dragover'));
+  dropArea.addEventListener('drop', () => dropArea.classList.remove('dragover'));
+
+  dropArea.addEventListener('drop', e => handleFiles(e.dataTransfer.files));
+  fileInput.addEventListener('change', e => handleFiles(e.target.files));
+  removeBtn.addEventListener('click', removeFile);
+
+  function handleFiles(files) {
+    if (!files.length) return;
+    const file = files[0];
+    displayPreview(file);
+  }
+
+  function displayPreview(file) {
+    const reader = new FileReader();
+
+    reader.onload = e => {
+      imagePreview.src = e.target.result;
+      previewArea.classList.remove('hidden');
+      dropMessage.classList.add('hidden');
+      uploadIcon.style.display = 'none';
+      dragDropText.style.display = 'none';
+      browseBtn.style.display = 'none';
+      fileInfo.textContent = `${file.name} (${formatSize(file.size)})`;
+    };
+
+    reader.readAsDataURL(file);
+  }
+
+  function removeFile() {
+    fileInput.value = '';
+    previewArea.classList.add('hidden');
+    dropMessage.classList.remove('hidden');
+    uploadIcon.style.display = 'block';
+    dragDropText.style.display = 'block';
+    browseBtn.style.display = 'block';
+    fileInfo.textContent = '';
+  }
+
+  function formatSize(bytes) {
+    if (bytes === 0) return '0 B';
+    const k = 1024;
+    const sizes = ['B', 'KB', 'MB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return `${parseFloat((bytes / Math.pow(k, i)).toFixed(1))} ${sizes[i]}`;
+  }
+});
+
+
 // Form validation
 
 document.querySelector('form').addEventListener('submit', async (event) => {

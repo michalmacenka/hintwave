@@ -1,0 +1,51 @@
+/* Layout */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+}
+
+.flex { display: flex; }
+.grow { flex-grow: 1; }
+.grid { display: grid; }
+.hidden { display: none; }
+.flex-wrap { flex-wrap: wrap; }
+.flex-col { flex-direction: column; }
+
+/* Spacing */
+.m-0 { margin: 0; }
+.p-0 { padding: 0; }
+.my-md { margin: var(--spacing-md) 0; }
+.mx-md { margin: 0 var(--spacing-md); }
+.py-md { padding: var(--spacing-md) 0; }
+.px-md { padding: 0 var(--spacing-md); }
+.mb-xl { margin-bottom: var(--spacing-xl); }
+.gap-md { gap: var(--spacing-md); }
+
+/* Text */
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-sm { font-size: 0.875rem; }
+.text-lg { font-size: 1.125rem; }
+.font-bold { font-weight: 700; }
+
+
+.line-clamp-3 {
+  overflow: hidden;
+display: -webkit-box;
+-webkit-box-orient: vertical;
+-webkit-line-clamp: 2;
+}
+
+/* Colors */
+.text-danger { color: var(--color-danger); }
+.text-success { color: var(--color-success); }
+.bg-danger { background-color: var(--color-danger); }
+.bg-success { background-color: var(--color-success); }
+
+/* Gradients */
+.gradient-primary {
+background: radial-gradient(103.79% 103.79% at 15.48% 0%, #f0f2f5 0%, #f9fcff 100%);
+}
+

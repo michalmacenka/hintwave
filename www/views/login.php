@@ -2,21 +2,18 @@
 require_once __DIR__ . "/../common/CSRF.php";
 ?>
 
-<style>
-  .errMsg {
-    color: red;
-    display: none;
-    margin-bottom: 10px;
-  }
-</style>
 
+<h1 class="mb-xl text-center">Login</h1>
 <form>
+  <div class="form-group">
+    <label for="username">Username:</label>
+    <input type="text" name="username" id="username" placeholder="Username" required>
+  </div>
 
-  <label for="username">Username:</label>
-  <input type="text" name="username" id="username" required>
-
-  <label for="password">Password:</label>
-  <input type="password" name="password" id="password" required>
+  <div class="form-group">
+    <label for="password">Password:</label>
+    <input type="password" name="password" id="password" placeholder="Password" required>
+  </div>
 
   <?php CSRF::generate(); ?>
 

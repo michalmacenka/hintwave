@@ -100,17 +100,26 @@ const showError = (input, message) => {
 
 const addReasonButton = document.getElementById('add-reason-button');
 const reasonsContainer = document.getElementById('reasons-container');
-
 addReasonButton.addEventListener('click', function() {
+  const currentReasons = reasonsContainer.querySelectorAll('input').length;
+  
+  if (currentReasons > 12) {
+    return;
+  }
+
   const reasonInput = document.createElement('input');
   reasonInput.type = 'text';
   reasonInput.name = 'reasons[]';
   reasonInput.required = true;
-  reasonInput.placeholder = 'Reason';
+  reasonInput.placeholder = `Reason ${currentReasons }`;
 
   const errorDiv = document.createElement('div');
   errorDiv.className = 'errMsg';
   
   reasonsContainer.insertBefore(errorDiv, reasonsContainer.lastElementChild);
   reasonsContainer.insertBefore(reasonInput, errorDiv);
+
+  if (currentReasons >= 12) {
+    addReasonButton.style.display = 'none';
+  }
 });

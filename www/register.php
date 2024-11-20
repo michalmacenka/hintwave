@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   $username = trim($data['username']);
   $password = trim($data['password']);
-  $profileImage = isset($data['profile_image']) ? trim($data['profile_image']) : null;
+  $profileImage = isset($data['profile_image']) ? $data['profile_image'] : null;
 
   $birth = new DateTime($data['birth_year'] . '-' . $data['birth_month'] . '-' . $data['birth_day']);
   if (CSRF::validate($data['csrf_token'])) {

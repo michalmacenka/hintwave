@@ -1,0 +1,93 @@
+.drop-area {
+  border: 0.125rem dashed var(--color-middle);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s ease;
+  position: relative;
+}
+
+.drop-area:hover,
+.drop-area.dragover {
+  background: var(--color-light);
+  border-color: var(--color-primary);
+}
+
+.drop-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.drop-message i {
+  font-size: 2rem;
+  color: var(--color-middle);
+}
+
+.browse-btn {
+  color: var(--color-primary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.3rem;
+  border-radius: var(--radius-md);
+  transition: 0.2s ease;
+}
+
+.browse-btn:hover {
+  background: none;
+  text-decoration: none;
+}
+
+.file-input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.preview-area {
+  width: 12.5rem;
+  margin: 1rem auto;
+  position: relative;
+}
+
+.preview-area img {
+  width: 100%;
+  height: 12.5rem;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+}
+
+.remove-btn {
+  position: absolute;
+  top: -0.625rem;
+  right: -0.625rem;
+  background: var(--color-danger);
+  color: white;
+  border: none;
+
+  width: 1.75rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s ease;
+}
+
+.remove-btn:hover {
+  transform: scale(1.1);
+  background: var(--color-danger);
+}
+
+.remove-btn i {
+  font-size: 1.2rem;
+}
+
+.file-info {
+  margin-top: var(--spacing-md);
+  color: var(--color-middle);
+  font-size: 0.875rem;
+}
