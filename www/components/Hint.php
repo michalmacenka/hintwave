@@ -20,6 +20,14 @@
   if ($currentUser && $currentUser->getRole() === 1): ?>
     <button class="delete-hint-btn" data-hint-id="<?php echo $this->getId(); ?>">Delete Hint</button>
   <?php endif; ?>
+
+  <?php if ($currentUser && $currentUser->getId() === $this->user->getId()): ?>
+
+    <a href="/add.php?edit=<?= $this->getId() ?>" class="btn btn-primary">
+      <i class='bx bx-edit'></i>
+      Edit Hint
+    </a>
+  <?php endif; ?>
 </div>
 
 <link rel="stylesheet" href="/public/styles/scoped/hint.css">

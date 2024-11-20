@@ -16,6 +16,6 @@ $authRepository = new AuthRepository($db);
 $authController = new AuthController($authRepository);
 
 $hintRepository = new HintRepository($db, $categoryRepository, $reasonRepository, $authRepository);
-$hintController = new HintController($hintRepository, $categoryRepository, $authRepository, $authController);
+$hintController = new HintController($hintRepository, $categoryRepository, $authRepository, $authController, $reasonRepository);
 
 $hintController->showHintsView();

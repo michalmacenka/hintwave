@@ -15,7 +15,7 @@ $authRepository = new AuthRepository($db);
 $authController = new AuthController($authRepository);
 
 $hintRepository = new HintRepository($db, $categoryRepository, $reasonRepository, $authRepository);
-$hintController = new HintController($hintRepository, $categoryRepository, $authRepository, $authController);
+$hintController = new HintController($hintRepository, $categoryRepository, $authRepository, $authController, $reasonRepository);
 
 if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
   $json = file_get_contents('php://input');

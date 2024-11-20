@@ -32,7 +32,7 @@ $user = $authRepository->getUser();
       <div class="flex gap-md grow">
         <a href=" hints.php">All hints</a>
         <?php if ($isLoggedIn) : ?>
-          <a href="index.php" class="grow">Recommended</a>
+          <a href="index.php" class="grow">Home</a>
         <?php endif; ?>
       </div>
 

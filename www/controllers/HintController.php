@@ -8,13 +8,14 @@ class HintController
   private $categoryRepository;
   private $authRepository;
   private $authController;
-
-  public function __construct(HintRepository $hintRepository, CategoryRepository $categoryRepository, AuthRepository $authRepository, AuthController $authController)
+  private $reasonRepository;
+  public function __construct(HintRepository $hintRepository, CategoryRepository $categoryRepository, AuthRepository $authRepository, AuthController $authController, ReasonRepository $reasonRepository)
   {
     $this->hintRepository = $hintRepository;
     $this->categoryRepository = $categoryRepository;
     $this->authRepository = $authRepository;
     $this->authController = $authController;
+    $this->reasonRepository = $reasonRepository;
   }
 
   public function showHintsView()
@@ -26,10 +27,25 @@ class HintController
     include 'views/layout.php';
   }
 
-  public function showAddHintView()
+  public function showAddHintView(?int $editId = null)
   {
+    $this->authController->protectedRoute();
+
+    $hintData = null;
+    if ($editId) {
+      $hintData = $this->hintRepository->getHintById($editId);
+      if ($hintData == null) {
+        HTTPException::sendException(404, 'Hint not found.');
+      }
+
+      if ($hintData->getUser()->getId() !== $this->authRepository->getUser()->getId()) {
+        HTTPException::sendException(403, 'Forbidden');
+      }
+    }
+
     ob_start();
     $categories = $this->categoryRepository->getAllCategories();
+    $hint = $hintData ?? null;
     include 'views/add_hint.php';
     $content = ob_get_clean();
     include 'views/layout.php';
@@ -38,10 +54,8 @@ class HintController
 
   public function addHint($title, $description, $categoryId, array $reasons)
   {
-    if (!$this->authRepository->isLoggedIn()) {
-      header('Location: login.php');
-      exit;
-    }
+    $this->authController->protectedRoute();
+
 
     Validator::isString($title, 'Title', 1, 256);
     Validator::isString($description, 'Description', 1, 1024);
@@ -64,6 +78,26 @@ class HintController
     $hint = new Hint(0, $user, $title, $description, $category, [], date('Y-m-d H:i:s'));
     $this->hintRepository->addHint($hint, $reasons);
     HTTPException::sendException(200, 'Hint added successfully.');
+  }
+
+  public function updateHint($hintId, $title, $description, $categoryId, array $reasons)
+  {
+    $this->authController->protectedRoute();
+
+    $hint = $this->hintRepository->getHintById($hintId);
+    if (!$hint || $hint->getUser()->getId() !== $this->authRepository->getUser()->getId()) {
+      HTTPException::sendException(403, 'Unauthorized to edit this hint');
+    }
+
+    Validator::isString($title, 'Title', 1, 256);
+    Validator::isString($description, 'Description', 1, 1024);
+    Validator::isInt($categoryId, 'Category');
+    Validator::isStringArray($reasons, 'Reasons', 2, 12, 3, 64);
+
+    $this->hintRepository->updateHint($hintId, $title, $description, $categoryId);
+    $this->reasonRepository->updateReasons($hintId, $reasons);
+
+    HTTPException::sendException(200, 'Hint updated successfully');
   }
 
   public function showRecommendedView()

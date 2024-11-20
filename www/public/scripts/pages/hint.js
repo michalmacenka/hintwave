@@ -11,6 +11,7 @@ document.querySelector('form').addEventListener('submit', async (event) => {
 
   const errors = [];
   const form = event.target;
+  const isEdit = form.querySelector('input[name="hint_id"]') !== null;
 
   // Validate title (1-256 characters)
   const title = form.title.value.trim();
@@ -78,10 +79,14 @@ document.querySelector('form').addEventListener('submit', async (event) => {
       csrf_token: form.querySelector('input[name="csrf_token"]').value
     };
 
+    if (isEdit) {
+      data.hint_id = form.querySelector('input[name="hint_id"]').value;
+    }
+
     const response = await fetchData('POST', 'add.php', data);
 
     if (response.status === 200) {
-      window.location.href = '/index.php';
+      window.location.href = '/hints.php';
     }
   } catch (error) {
     const formErrorDiv = document.getElementById('globalErrMsg');
@@ -98,28 +103,55 @@ const showError = (input, message) => {
   }
 }
 
-const addReasonButton = document.getElementById('add-reason-button');
-const reasonsContainer = document.getElementById('reasons-container');
-addReasonButton.addEventListener('click', function() {
-  const currentReasons = reasonsContainer.querySelectorAll('input').length;
+window.removeReason = function(button) {
+  const reasonInput = button.closest('.reason-input');
+  const totalReasons = document.querySelectorAll('.reason-input').length;
   
-  if (currentReasons > 12) {
+  if (totalReasons > 2) {
+    reasonInput.remove();
+    if (totalReasons <= 12) {
+      document.getElementById('add-reason-button').style.display = 'flex';
+    }
+  }
+}
+
+const addReasonButton = document.getElementById('add-reason-button');
+addReasonButton.addEventListener('click', function() {
+  const reasonsContainer = document.getElementById('reasons-container');
+  const currentReasons = reasonsContainer.querySelectorAll('.reason-input').length;
+  
+  if (currentReasons >= 12) {
     return;
   }
+
+  const reasonDiv = document.createElement('div');
+  reasonDiv.className = 'reason-input';
 
   const reasonInput = document.createElement('input');
   reasonInput.type = 'text';
   reasonInput.name = 'reasons[]';
   reasonInput.required = true;
-  reasonInput.placeholder = `Reason ${currentReasons }`;
+  reasonInput.placeholder = `Reason ${currentReasons + 1}`;
 
-  const errorDiv = document.createElement('div');
-  errorDiv.className = 'errMsg';
-  
-  reasonsContainer.insertBefore(errorDiv, reasonsContainer.lastElementChild);
-  reasonsContainer.insertBefore(reasonInput, errorDiv);
+  const removeButton = document.createElement('button');
+  removeButton.type = 'button';
+  removeButton.className = 'remove-reason-button';
+  removeButton.onclick = function() { removeReason(this); };
+  removeButton.innerHTML = '<i class="bx bx-x"></i>';
 
-  if (currentReasons >= 12) {
+  reasonDiv.appendChild(reasonInput);
+  reasonDiv.appendChild(removeButton);
+
+  reasonsContainer.appendChild(reasonDiv);
+
+  if (currentReasons + 1 >= 12) {
+    addReasonButton.style.display = 'none';
+  }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const reasonCount = document.querySelectorAll('.reason-input').length;
+  if (reasonCount >= 12) {
     addReasonButton.style.display = 'none';
   }
 });

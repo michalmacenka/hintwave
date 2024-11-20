@@ -17,7 +17,7 @@ class HintRepository
 
   public function getAllHints()
   {
-    $sql = "SELECT * FROM hints";
+    $sql = "SELECT * FROM hints ORDER BY created_at DESC";
     $results = $this->db->select($sql);
 
     $hints = [];
@@ -30,6 +30,23 @@ class HintRepository
       $hints[] = new Hint($hintId, $user, $row['title'], $row['description'], $category, $reasons, $row['created_at']);
     }
     return $hints;
+  }
+
+
+  public function getHintById(int $hintId)
+  {
+    $sql = "SELECT * FROM hints WHERE id = ?";
+    $results = $this->db->select($sql, [$hintId]);
+    if (empty($results)) {
+      return null;
+    }
+
+    $reasons = $this->reasonRepository->getReasonsByHintId($hintId);
+    $category = $this->categoryRepository->getCategoryById($results[0]['category_id']);
+    $user = $this->authRepository->getUserById($results[0]['user_id']);
+
+    $hint = new Hint($hintId, $user, $results[0]['title'], $results[0]['description'], $category, $reasons, $results[0]['created_at']);
+    return $hint;
   }
 
   public function addHint(Hint $hint, array $reasons)
@@ -48,6 +65,12 @@ class HintRepository
   {
     $sql = "DELETE FROM hints WHERE id = ?";
     $this->db->delete($sql, [$hintId]);
+  }
+
+  public function updateHint(int $hintId, string $title, string $description, int $categoryId)
+  {
+    $sql = "UPDATE hints SET title = ?, description = ?, category_id = ? WHERE id = ?";
+    $this->db->update($sql, [$title, $description, $categoryId, $hintId]);
   }
 
 

@@ -28,4 +28,24 @@ class ReasonRepository
     $sql = "INSERT INTO reasons (hint_id, description) VALUES (?, ?)";
     $this->db->insert($sql, [$hintId, $description]);
   }
+
+  public function updateReasons($hintId, $reasons)
+  {
+    $this->db->beginTransaction();
+
+    try {
+      $sql = "DELETE FROM reasons WHERE hint_id = ?";
+      $this->db->delete($sql, [$hintId]);
+
+      $sql = "INSERT INTO reasons (hint_id, value) VALUES (?, ?)";
+      foreach ($reasons as $reason) {
+        $this->db->insert($sql, [$hintId, $reason]);
+      }
+
+      $this->db->commit();
+    } catch (Exception $e) {
+      $this->db->rollback();
+      throw $e;
+    }
+  }
 }
