@@ -38,8 +38,10 @@ class HintController
         HTTPException::sendException(404, 'Hint not found.');
       }
 
-      if ($hintData->getUser()->getId() !== $this->authRepository->getUser()->getId()) {
-        HTTPException::sendException(403, 'Forbidden');
+      $currentUser = $this->authRepository->getUser();
+      if ($hintData->getUser()->getId() !== $currentUser->getId() && !$currentUser->isAdmin()) {
+        header('Location: index.php');
+        exit;
       }
     }
 
@@ -85,8 +87,11 @@ class HintController
     $this->authController->protectedRoute();
 
     $hint = $this->hintRepository->getHintById($hintId);
-    if (!$hint || $hint->getUser()->getId() !== $this->authRepository->getUser()->getId()) {
-      HTTPException::sendException(403, 'Unauthorized to edit this hint');
+    $currentUser = $this->authRepository->getUser();
+
+    if (!$hint || ($hint->getUser()->getId() !== $currentUser->getId() && !$currentUser->isAdmin())) {
+      header('Location: index.php');
+      exit;
     }
 
     Validator::isString($title, 'Title', 1, 256);

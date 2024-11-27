@@ -17,12 +17,11 @@
   <?php
   global $authRepository;
   $currentUser = $authRepository->getUser();
-  if ($currentUser && $currentUser->getRole() === 1): ?>
+  if ($currentUser && $currentUser->isAdmin()): ?>
     <button class="delete-hint-btn" data-hint-id="<?php echo $this->getId(); ?>">Delete Hint</button>
   <?php endif; ?>
 
-  <?php if ($currentUser && $currentUser->getId() === $this->user->getId()): ?>
-
+  <?php if ($currentUser && ($currentUser->getId() === $this->user->getId() || $currentUser->isAdmin())): ?>
     <a href="/add.php?edit=<?= $this->getId() ?>" class="btn btn-primary">
       <i class='bx bx-edit'></i>
       Edit Hint

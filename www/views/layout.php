@@ -30,10 +30,10 @@ $user = $authRepository->getUser();
     <nav>
       <h1 class="text-lg">HintWave</h1>
       <div class="flex gap-md grow">
-        <a href=" hints.php">All hints</a>
         <?php if ($isLoggedIn) : ?>
-          <a href="index.php" class="grow">Home</a>
+          <a href="index.php">Home</a>
         <?php endif; ?>
+        <a href=" hints.php" class="grow">All hints</a>
       </div>
 
       <?php if ($isLoggedIn) : ?>
