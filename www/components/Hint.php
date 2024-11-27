@@ -14,19 +14,21 @@
     <?php endforeach; ?>
   </ul>
 
-  <?php
-  global $authRepository;
-  $currentUser = $authRepository->getUser();
-  if ($currentUser && $currentUser->isAdmin()): ?>
-    <button class="delete-hint-btn" data-hint-id="<?php echo $this->getId(); ?>">Delete Hint</button>
-  <?php endif; ?>
+  <div class="hint-actions">
+    <?php
+    global $authRepository;
+    $currentUser = $authRepository->getUser();
+    if ($currentUser && ($currentUser->getId() === $this->user->getId() || $currentUser->isAdmin())): ?>
+      <button class="delete-hint-btn" data-hint-id="<?php echo $this->getId(); ?>"> <i class='bx bx-trash'></i> Delete Hint</button>
+    <?php endif; ?>
 
-  <?php if ($currentUser && ($currentUser->getId() === $this->user->getId() || $currentUser->isAdmin())): ?>
-    <a href="/add.php?edit=<?= $this->getId() ?>" class="btn btn-primary">
-      <i class='bx bx-edit'></i>
-      Edit Hint
-    </a>
-  <?php endif; ?>
+    <?php if ($currentUser && ($currentUser->getId() === $this->user->getId() || $currentUser->isAdmin())): ?>
+      <a href="/add.php?edit=<?= $this->getId() ?>">
+        <i class='bx bx-edit'></i>
+        Edit Hint
+      </a>
+    <?php endif; ?>
+  </div>
 </div>
 
 <link rel="stylesheet" href="/public/styles/scoped/hint.css">

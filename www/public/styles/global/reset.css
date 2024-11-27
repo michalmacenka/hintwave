@@ -23,4 +23,6 @@ img, picture, svg {
 
 input, button, textarea, select {
   font: inherit;
+  background: none;
+  border: none;
 }

@@ -1,6 +1,6 @@
 .hint {
   border-radius: var(--radius-lg);
-  padding: 1.2rem;
+  padding: 1.2rem 1.2rem 0.9rem 1.2rem;
   width: 100%;
   max-width: 30rem;
   height: fit-content;
@@ -56,4 +56,22 @@
 .hint-user i {
   font-size: 1rem;
   margin-right: 0.12rem;
+}
+
+.delete-hint-btn {
+  color: var(--color-danger);
+  transition: color 0.2s ease;
+  cursor: pointer;
+}
+
+.delete-hint-btn:hover {
+  color: var(--color-danger-light);
+  background: none;
+}
+
+.hint-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 0.3rem;
 }

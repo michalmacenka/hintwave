@@ -85,6 +85,7 @@ class HintController
   public function updateHint($hintId, $title, $description, $categoryId, array $reasons)
   {
     $this->authController->protectedRoute();
+    Validator::isInt($hintId, 'Hint ID');
 
     $hint = $this->hintRepository->getHintById($hintId);
     $currentUser = $this->authRepository->getUser();
@@ -118,14 +119,17 @@ class HintController
 
   public function deleteHint(int $hintId)
   {
+    $this->authController->protectedRoute();
     Validator::isInt($hintId, 'Hint ID');
-    $user = $this->authRepository->getUser();
 
-    if ($user === null || !$user->isAdmin()) {
-      HTTPException::sendException(403, 'Forbidden');
+    $currentUser = $this->authRepository->getUser();
+    $hint = $this->hintRepository->getHintById($hintId);
+
+    if (!$hint || ($hint->getUser()->getId() !== $currentUser->getId() && !$currentUser->isAdmin())) {
+      header('Location: index.php');
+      exit;
     }
 
-    $this->authController->verifyUserRole($user->getId(), 1);
     $this->hintRepository->deleteHint($hintId);
     HTTPException::sendException(200, 'Hint deleted successfully.');
   }
