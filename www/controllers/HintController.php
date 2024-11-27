@@ -133,4 +133,23 @@ class HintController
     $this->hintRepository->deleteHint($hintId);
     HTTPException::sendException(200, 'Hint deleted successfully.');
   }
+
+  public function showHintDetail(int $hintId)
+  {
+
+    $hintData = null;
+    if ($hintId) {
+      $hintData = $this->hintRepository->getHintById($hintId);
+      if ($hintData == null) {
+        HTTPException::sendException(404, 'Hint not found.');
+      }
+    }
+
+
+    ob_start();
+    $hint = $hintData ?? null;
+    include 'views/hint_detail.php';
+    $content = ob_get_clean();
+    include 'views/layout.php';
+  }
 }

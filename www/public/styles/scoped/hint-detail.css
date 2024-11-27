@@ -1,0 +1,77 @@
+.hint-detail {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: white;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 1px 15px rgba(0, 0, 0, 0.1);
+}
+
+.hint-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.hint-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-dark);
+  margin: 0;
+}
+
+.hint-meta {
+  display: flex;
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
+  color: var(--color-middle);
+  font-size: 0.9rem;
+}
+
+.hint-user, .hint-date {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.hint-content {
+  margin-bottom: var(--spacing-xl);
+}
+
+.hint-description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--color-middle);
+  margin-bottom: var(--spacing-xl);
+}
+
+.hint-reasons h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: var(--spacing-md);
+  color: var(--color-dark);
+}
+
+.hint-reasons .reasons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  text-decoration: none;
+}
+
+.btn-secondary {
+  background-color: var(--color-light);
+  color: var(--color-middle);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+} 

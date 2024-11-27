@@ -18,4 +18,9 @@ $authController = new AuthController($authRepository);
 $hintRepository = new HintRepository($db, $categoryRepository, $reasonRepository, $authRepository);
 $hintController = new HintController($hintRepository, $categoryRepository, $authRepository, $authController, $reasonRepository);
 
-$hintController->showRecommendedView();
+if (isset($_GET['id'])) {
+  $hintId = (int)$_GET['id'];
+  $hintController->showHintDetail($hintId);
+} else {
+  $hintController->showRecommendedView();
+}

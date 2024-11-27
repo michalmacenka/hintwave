@@ -1,5 +1,7 @@
 <div class="hint gradient-primary" data-hint-id="<?php echo $this->getId(); ?>">
-  <h3><?php echo htmlspecialchars($this->title); ?> <span class="badge"><?php echo htmlspecialchars($this->category->getName()); ?></span> </h3>
+  <a href="index.php?id=<?= $this->getId() ?>">
+    <h3><?php echo htmlspecialchars($this->title); ?> <span class="badge"><?php echo htmlspecialchars($this->category->getName()); ?></span> </h3>
+  </a>
   <div class="hint-user m-0">
     <i class='bx bx-at'></i>
     <p><?= htmlspecialchars($this->user->getUsername()) ?></p>

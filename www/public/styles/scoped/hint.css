@@ -5,7 +5,12 @@
   max-width: 30rem;
   height: fit-content;
   border: 1px solid #EDF0F3FF;
+  transition: all 0.2s ease;
+}
 
+.hint:hover {
+  box-shadow: 0 1px 20px rgba(0, 0, 0, 0.05);
+  transform: translateY(-5px);
 }
 
 .reasons {
