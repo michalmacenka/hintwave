@@ -1,7 +1,7 @@
 header {
   background-color: var(--color-light);
   border-bottom: 1px solid #EDF0F3FF;
-  padding: var(--spacing-md) 0;
+  padding: var(--spacing-sm) 0;
   margin-bottom: var(--spacing-xl);
   position: sticky;
   top: 0;
