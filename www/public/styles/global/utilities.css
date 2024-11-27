@@ -6,6 +6,12 @@
   padding: 0 var(--spacing-md);
 }
 
+@media (max-width: 768px) {
+  .container {
+    padding: var(--spacing-sm);
+  }
+}
+
 .flex { display: flex; }
 .grow { flex-grow: 1; }
 .grid { display: grid; }
@@ -31,9 +37,9 @@
 .font-bold { font-weight: 700; }
 
 
-.line-clamp-3 {
+.line-clamp-2 {
   overflow: hidden;
-display: -webkit-box;
+  display: -webkit-box;
 -webkit-box-orient: vertical;
 -webkit-line-clamp: 2;
 }

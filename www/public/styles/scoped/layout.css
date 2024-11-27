@@ -1,12 +1,80 @@
+header {
+  background-color: var(--color-light);
+  border-bottom: 1px solid #EDF0F3FF;
+  padding: var(--spacing-md) 0;
+  margin-bottom: var(--spacing-xl);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xl);
+  flex-wrap: wrap;
+}
+
+.nav-brand a {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-dark);
+  text-decoration: none;
+}
+
+.nav-primary-links {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-left: auto;
+  flex-wrap: wrap;
+}
+
 .profile-section {
   display: flex;
   align-items: center;
   gap: 10px;
+  padding: 0.5rem;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.5);
 }
 
 .profile-image {
-  width: 40px;
-  height: 40px;
+  width: 2.5rem;
+  height: 2.5rem;
   border-radius: 50%;
   object-fit: cover;
+}
+
+.role-badge {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.5rem;
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  border-radius: 999px;
+}
+
+.nav-primary-links a {
+  padding: 0.5rem 0.5rem;
+  border-radius: var(--radius-md);
+  transition: all 0.2s ease;
+}
+
+.nav-primary-links a:hover,
+.nav-primary-links a.active {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
 }

@@ -8,7 +8,7 @@ $isEdit = isset($hint);
     <input type="hidden" name="hint_id" value="<?= $hint->getId() ?>">
   <?php endif; ?>
 
-  <label for="title">Title:</label>
+  <label for="title" class="required">Title</label>
   <input type="text"
     name="title"
     id="title"
@@ -16,13 +16,13 @@ $isEdit = isset($hint);
     value="<?= $isEdit ? htmlspecialchars($hint->getTitle()) : '' ?>">
   <div class="errMsg"></div>
 
-  <label for="description">Description:</label>
+  <label for="description" class="required">Description</label>
   <textarea name="description"
     id="description"
     required><?= $isEdit ? htmlspecialchars($hint->getDescription()) : '' ?></textarea>
   <div class="errMsg"></div>
 
-  <label for="category">Category:</label>
+  <label for="category" class="required">Category</label>
   <select name="category" id="category" required>
     <?php foreach ($categories as $category): ?>
       <option value="<?= $category->getId() ?>"
@@ -33,7 +33,7 @@ $isEdit = isset($hint);
   </select>
   <div class="errMsg"></div>
 
-  <div id="reasons-container" class="flex flex-col gap-md">
+  <div id="reasons-container" class="flex flex-col gap-md my-md">
     <h3>Reasons</h3>
     <?php if ($isEdit && !empty($hint->getReasons())): ?>
       <?php foreach ($hint->getReasons() as $index => $reason): ?>
@@ -61,7 +61,7 @@ $isEdit = isset($hint);
   </div>
   <div class="errMsg"></div>
 
-  <button type="button" id="add-reason-button">
+  <button type="button" class="add-reason-button">
     <i class='bx bx-plus'></i>
     Add Another Reason
   </button>
@@ -72,51 +72,7 @@ $isEdit = isset($hint);
   <div class="errMsg" id="globalErrMsg"></div>
 </form>
 
-<style>
-  .reason-input {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-md);
-  }
 
-  .reason-input label {
-    min-width: 100px;
-  }
-
-  .reason-input input {
-    flex: 1;
-  }
-
-  .remove-reason-button {
-    background: transparent;
-    border: none;
-    color: #666;
-    cursor: pointer;
-    padding: var(--spacing-xs);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .remove-reason-button:hover {
-    color: var(--color-danger);
-  }
-
-  #add-reason-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--spacing-md);
-    padding: var(--spacing-sm) var(--spacing-lg);
-    width: 100%;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    cursor: pointer;
-    margin: var(--spacing-md) 0;
-    background: transparent;
-    color: #666;
-    font-size: 0.9em;
-  }
-</style>
 
 <script src="/public/scripts/pages/hint.js" type="module"></script>
+<link rel="stylesheet" href="/public/styles/scoped/add-hint.css">

@@ -44,3 +44,9 @@ form input[type="submit"] {
   display: none;
   margin-bottom: var(--spacing-md);
 }
+
+@media (max-width: 768px) {
+  form {
+    padding: var(--spacing-sm);
+  }
+}

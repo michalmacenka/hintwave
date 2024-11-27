@@ -15,7 +15,7 @@ require_once __DIR__ . '/../common/CSRF.php';
     </div>
     <div class="hint-date">
       <i class='bx bx-calendar'></i>
-      <span><?= htmlspecialchars($hint->getCreatedAt()) ?></span>
+      <span><?= date('n.j.Y', strtotime($hint->getCreatedAt())) ?></span>
     </div>
   </div>
 

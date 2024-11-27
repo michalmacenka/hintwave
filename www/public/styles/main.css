@@ -31,3 +31,12 @@
 .reason > p::first-letter {
   text-transform: capitalize;
 }
+
+
+label.required::after {
+  content: '*';
+  color: var(--color-danger);
+  font-size: 0.8rem;
+  margin-left: 0.1rem;
+  font-weight: 700;
+}

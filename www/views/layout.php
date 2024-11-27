@@ -27,33 +27,40 @@ $user = $authRepository->getUser();
 
 <body>
   <header>
-    <nav>
-      <h1 class="text-lg">HintWave</h1>
-      <div class="flex gap-md grow">
-        <?php if ($isLoggedIn) : ?>
-          <a href="index.php">Home</a>
-        <?php endif; ?>
-        <a href=" hints.php" class="grow">All hints</a>
+    <nav class="container">
+      <div class="nav-left">
+        <div class="nav-brand">
+          <a href="index.php">HintWave</a>
+        </div>
+        <div class="nav-primary-links">
+          <?php if ($isLoggedIn) : ?>
+            <a href="index.php">Home</a>
+            <a href="hints.php">All Hints</a>
+            <a href="add.php">Add hint</a>
+          <?php endif; ?>
+        </div>
       </div>
 
-      <?php if ($isLoggedIn) : ?>
-        <a href="add.php">Add hint</a>
-        <a href="logout.php" class="text-danger">Logout</a>
-        <div class="profile-section">
-          <img
-            src="public/uploads/profiles/<?= $user->getProfileImage() ?>"
-            alt="Profile picture of <?= htmlspecialchars($user->getUsername()) ?>"
-            class="profile-image">
-          <p class="font-bold"><?= htmlspecialchars($user->getUsername()) ?> <span class="role-badge"><?= $user->getRole() === 1 ? 'Admin' : '' ?></span> </p>
-        </div>
-      <?php else : ?>
-        <a href="login.php">Login</a>
-        <a href="register.php">Register</a>
-      <?php endif; ?>
-
+      <div class="nav-right">
+        <?php if ($isLoggedIn) : ?>
+          <div class="profile-section">
+            <img
+              src="public/uploads/profiles/<?= $user->getProfileImage() ?>"
+              alt="Profile picture of <?= htmlspecialchars($user->getUsername()) ?>"
+              class="profile-image">
+            <p class="font-bold"><?= htmlspecialchars($user->getUsername()) ?>
+              <?php if ($user->isAdmin()) : ?>
+                <span class="role-badge">Admin</span>
+              <?php endif; ?>
+            </p>
+          </div>
+          <a href="logout.php" class="text-danger">Logout</a>
+        <?php else : ?>
+          <a href="login.php">Login</a>
+          <a href="register.php">Register</a>
+        <?php endif; ?>
+      </div>
     </nav>
-
-
   </header>
   <main class="container">
     <?php echo $content; ?>

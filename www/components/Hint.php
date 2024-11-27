@@ -6,7 +6,7 @@
     <i class='bx bx-at'></i>
     <p><?= htmlspecialchars($this->user->getUsername()) ?></p>
   </div>
-  <p class="hint-desc"><?php echo htmlspecialchars($this->description); ?></p>
+  <p class="hint-desc line-clamp-2"><?php echo htmlspecialchars($this->description); ?></p>
   <box-icon name='calendar'></box-icon>
   <ul class="reasons">
     <?php foreach ($this->reasons as $reason): ?>

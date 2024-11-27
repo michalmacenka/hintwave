@@ -74,4 +74,84 @@
 .btn-secondary:hover {
   background-color: var(--color-primary-light);
   color: var(--color-primary);
+}
+
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+    margin: 0;
+    padding: 15px;
+    font-size: 12pt;
+  }
+
+  header,
+  nav,
+  .btn,
+  footer {
+    display: none !important;
+  }
+
+  .hint-detail {
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .hint-header {
+    border-bottom: 1px solid #000;
+    margin-bottom: 1cm;
+  }
+
+  .hint-header h1 {
+    font-size: 18pt;
+    margin-bottom: 0.5cm;
+  }
+
+  .hint-meta {
+    color: #666 !important;
+    margin-bottom: 1cm;
+    font-size: 10pt;
+  }
+
+  .reasons {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .reason {
+    border: 1px solid #000 !important;
+    background: none !important;
+    color: black !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+
+  a {
+    text-decoration: none;
+    color: black !important;
+  }
+
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 90%;
+  }
+
+
+  .hint-description {
+    font-size: 11pt;
+    line-height: 1.4;
+    margin: 1cm 0;
+  }
+
+
+  h1, h2, h3,
+  .hint-meta,
+  .reason {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
 } 

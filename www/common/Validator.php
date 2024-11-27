@@ -118,7 +118,7 @@ class Validator
   {
     Validator::isRequired($date, $fieldName);
     if ($date instanceof DateTime) {
-      return; // DateTime objekt je vždy validní datum
+      return;
     }
 
     if (!is_string($date)) {

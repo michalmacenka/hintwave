@@ -8,25 +8,25 @@ require_once __DIR__ . "/../common/CSRF.php";
 <form>
 
   <div class="form-group">
-    <label for="username">Username:</label>
+    <label for="username" class="required">Username</label>
     <input type="text" name="username" id="username" required>
     <div class="errMsg"></div>
   </div>
 
   <div class="form-group">
-    <label for="password">Password:</label>
+    <label for="password" class="required">Password</label>
     <input type="password" name="password" id="password" required>
     <div class="errMsg"></div>
   </div>
 
   <div class="form-group">
-    <label for="confirm_password">Password confirm:</label>
+    <label for="confirm_password" class="required">Password confirm</label>
     <input type="password" name="confirm_password" id="confirm_password" required>
     <div class="errMsg"></div>
   </div>
 
   <div class="form-group">
-    <label for="birth_year">Birth date:</label>
+    <label for="birth_year" class="required">Birth date</label>
     <div class="birthDateGroup flex gap-md">
       <select name="birth_year" id="birth_year" required>
         <?php
@@ -58,7 +58,7 @@ require_once __DIR__ . "/../common/CSRF.php";
   </div>
 
   <div class="form-group">
-    <label for="profile_image">Profile Image:</label>
+    <label for="profile_image">Profile Image</label>
     <div class="drop-area" id="dropArea">
       <input type="file"
         name="profile_image"
