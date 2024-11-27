@@ -15,23 +15,29 @@ class HintRepository
     $this->authRepository = $authRepository;
   }
 
-  public function getAllHints()
+  public function getAllHints(int $page = 1, int $perPage = 6): array
   {
-    $sql = "SELECT * FROM hints ORDER BY created_at DESC";
-    $results = $this->db->select($sql);
+    $offset = ($page - 1) * $perPage;
+    $sql = "SELECT * FROM hints ORDER BY created_at DESC LIMIT ? OFFSET ?";
+    $results = $this->db->select($sql, [$perPage, $offset]);
 
     $hints = [];
     foreach ($results as $row) {
-      $hintId = $row['id'];
-      $reasons = $this->reasonRepository->getReasonsByHintId($hintId);
+      $reasons = $this->reasonRepository->getReasonsByHintId($row['id']);
       $category = $this->categoryRepository->getCategoryById($row['category_id']);
       $user = $this->authRepository->getUserById($row['user_id']);
 
-      $hints[] = new Hint($hintId, $user, $row['title'], $row['description'], $category, $reasons, $row['created_at']);
+      $hints[] = new Hint($row['id'], $user, $row['title'], $row['description'], $category, $reasons, $row['created_at']);
     }
     return $hints;
   }
 
+  public function getTotalHints(): int
+  {
+    $sql = "SELECT COUNT(*) as count FROM hints";
+    $result = $this->db->select($sql);
+    return (int)$result[0]['count'];
+  }
 
   public function getHintById(int $hintId)
   {

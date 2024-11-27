@@ -20,8 +20,14 @@ class HintController
 
   public function showHintsView()
   {
+    $page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
+    $perPage = 4;
+
+    $totalHints = $this->hintRepository->getTotalHints();
+
     ob_start();
-    $hints = $this->hintRepository->getAllHints();
+    $hints = $this->hintRepository->getAllHints($page, $perPage);
+    $totalPages = ceil($totalHints / $perPage);
     include 'views/hints.php';
     $content = ob_get_clean();
     include 'views/layout.php';

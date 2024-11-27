@@ -39,10 +39,26 @@ class Database
     $stmt = $this->execute($sql, $params);
   }
 
-  private function execute($sql, $params = [])
+  private function execute(string $sql, array $params = []): PDOStatement
   {
     $stmt = $this->conn->prepare($sql);
-    $stmt->execute($params);
+
+    foreach ($params as $key => $value) {
+      $type = PDO::PARAM_STR;
+      if (is_int($value)) {
+        $type = PDO::PARAM_INT;
+      } elseif (is_bool($value)) {
+        $type = PDO::PARAM_BOOL;
+      }
+
+      if (is_int($key)) {
+        $stmt->bindValue($key + 1, $value, $type);
+      } else {
+        $stmt->bindValue($key, $value, $type);
+      }
+    }
+
+    $stmt->execute();
     return $stmt;
   }
 
