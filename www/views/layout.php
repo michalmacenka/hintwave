@@ -37,6 +37,9 @@ $user = $authRepository->getUser();
             <a href="index.php">Home</a>
             <a href="hints.php">All Hints</a>
             <a href="add.php">Add hint</a>
+            <?php if ($user && $user->isAdmin()) : ?>
+              <a href="users.php">Manage Users</a>
+            <?php endif; ?>
           <?php endif; ?>
         </div>
       </div>

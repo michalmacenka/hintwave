@@ -170,4 +170,43 @@ class AuthController
       HTTPException::sendException(403, 'Forbidden');
     }
   }
+
+  /**
+   * Display admin users management view
+   * 
+   * @return void
+   */
+  public function showAdminUsersView()
+  {
+    ob_start();
+    $this->protectedRoute(isAdminRoute: true);
+    $currentUser = $this->authRepository->getUser();
+    $users = $this->authRepository->getAllUsers();
+    include 'views/admin_users.php';
+    $content = ob_get_clean();
+    include 'views/layout.php';
+  }
+
+  /**
+   * Update user role
+   * 
+   * @param int $userId User ID to update
+   * @param int $newRole New role value (0 or 1)
+   * @return void
+   */
+  public function updateUserRole(int $userId, int $newRole)
+  {
+    $this->protectedRoute(isAdminRoute: true);
+
+    if ($newRole !== 0 && $newRole !== 1) {
+      HTTPException::sendException(400, 'Invalid role value');
+    }
+
+    $success = $this->authRepository->updateUserRole($userId, $newRole);
+    if ($success) {
+      HTTPException::sendException(200, 'User role updated successfully');
+    } else {
+      HTTPException::sendException(400, 'Failed to update user role');
+    }
+  }
 }

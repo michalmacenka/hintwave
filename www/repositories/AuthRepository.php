@@ -140,4 +140,40 @@ class AuthRepository
       'created_at' => $user->getCreatedAt()
     ];
   }
+
+  /**
+   * Get all users from database
+   * 
+   * @return User[] Array of all users
+   */
+  public function getAllUsers(): array
+  {
+    $sql = "SELECT * FROM users ORDER BY created_at DESC";
+    $results = $this->db->select($sql);
+
+    $users = [];
+    foreach ($results as $row) {
+      $users[] = new User(
+        $row['id'],
+        $row['username'],
+        $row['birth'],
+        $row['role'],
+        $row['created_at']
+      );
+    }
+    return $users;
+  }
+
+  /**
+   * Update user role
+   * 
+   * @param int $userId User ID to update
+   * @param int $newRole New role value
+   */
+  public function updateUserRole(int $userId, int $newRole)
+  {
+    $sql = "UPDATE users SET role = :newRole WHERE id = :userId";
+    $this->db->update($sql, [':newRole' => $newRole, ':userId' => $userId]);
+    HTTPException::sendException(200, 'User role updated successfully.');
+  }
 }
