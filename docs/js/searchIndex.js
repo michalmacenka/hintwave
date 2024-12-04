@@ -226,6 +226,21 @@ Search.appendIndex(
             "summary": "Verify\u0020a\u0020user\u0020has\u0020the\u0020required\u0020role",
             "url": "classes/AuthController.html#method_verifyUserRole"
         },                {
+            "fqsen": "\\AuthController\u003A\u003AshowAdminUsersView\u0028\u0029",
+            "name": "showAdminUsersView",
+            "summary": "Display\u0020admin\u0020users\u0020management\u0020view",
+            "url": "classes/AuthController.html#method_showAdminUsersView"
+        },                {
+            "fqsen": "\\AuthController\u003A\u003AupdateUserRole\u0028\u0029",
+            "name": "updateUserRole",
+            "summary": "Update\u0020user\u0020role",
+            "url": "classes/AuthController.html#method_updateUserRole"
+        },                {
+            "fqsen": "\\AuthController\u003A\u003AdeleteUser\u0028\u0029",
+            "name": "deleteUser",
+            "summary": "Delete\u0020a\u0020user",
+            "url": "classes/AuthController.html#method_deleteUser"
+        },                {
             "fqsen": "\\AuthController\u003A\u003A\u0024authRepository",
             "name": "authRepository",
             "summary": "",
@@ -575,6 +590,21 @@ Search.appendIndex(
             "name": "setUser",
             "summary": "Set\u0020user\u0020session\u0020data",
             "url": "classes/AuthRepository.html#method_setUser"
+        },                {
+            "fqsen": "\\AuthRepository\u003A\u003AgetAllUsers\u0028\u0029",
+            "name": "getAllUsers",
+            "summary": "Get\u0020all\u0020users\u0020from\u0020database",
+            "url": "classes/AuthRepository.html#method_getAllUsers"
+        },                {
+            "fqsen": "\\AuthRepository\u003A\u003AupdateUserRole\u0028\u0029",
+            "name": "updateUserRole",
+            "summary": "Update\u0020user\u0020role",
+            "url": "classes/AuthRepository.html#method_updateUserRole"
+        },                {
+            "fqsen": "\\AuthRepository\u003A\u003AdeleteUser\u0028\u0029",
+            "name": "deleteUser",
+            "summary": "Delete\u0020a\u0020user",
+            "url": "classes/AuthRepository.html#method_deleteUser"
         },                {
             "fqsen": "\\AuthRepository\u003A\u003A\u0024db",
             "name": "db",
