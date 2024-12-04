@@ -79,6 +79,8 @@ document.querySelector('form').addEventListener('submit', async (event) => {
       csrf_token: form.querySelector('input[name="csrf_token"]').value
     };
 
+    console.log(data);
+
     if (isEdit) {
       data.hint_id = form.querySelector('input[name="hint_id"]').value;
     }
@@ -86,9 +88,10 @@ document.querySelector('form').addEventListener('submit', async (event) => {
     const response = await fetchData('POST', 'add.php', data);
 
     if (response.status === 200) {
-      window.location.href = '/hints.php';
+      window.location.href = isEdit ? `/index.php?id=${data.hint_id}` : `/index.php`;
     }
   } catch (error) {
+    console.error(error);
     const formErrorDiv = document.getElementById('globalErrMsg');
     formErrorDiv.textContent = error.body.message;
     formErrorDiv.style.display = 'block';

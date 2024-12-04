@@ -1,5 +1,6 @@
-# Databázový dump a obnova
-Tento projekt používá MySQL databázi, kterou spravujeme pomocí Dockeru. Níže jsou uvedeny kroky, jak vytvořit dump databáze a jak obnovit databázi z dumpu.
+# HINTWAVE - Semestrální projekt ZWA
+## Produktová dokumentace - [product-docs.md](product-docs.md)
+## Technická dokumentace - [tech-docs.md](tech-docs.md)
 
 ## Vytvoření databázového dumpu
 

@@ -190,7 +190,8 @@ Aplikace HintWave funguje jako platforma pro sdílení a správu uživatelských
 ## Další části aplikace
 
 ### Systém Rolí
-- Běžný uživatel: Základní operace s hinty, jako je jejich prohlížení a přidávání. Dále editace a mazání pouze u svých hintů.
+- Nepřihlášený uživatel: Možnost prohlížet si pouze všechny
+- Přihlášený uživatel: Základní operace s hinty, jako je jejich prohlížení a přidávání. Dále editace a mazání pouze u svých hintů.
 - Administrátor: Správa uživatelů a rozšířené možnosti, jako je úprava a mazání všech hintů.
 
 ### Správa Souborů

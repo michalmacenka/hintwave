@@ -73,7 +73,8 @@ class HintController
     if ($editId) {
       $hintData = $this->hintRepository->getHintById($editId);
       if ($hintData == null) {
-        HTTPException::sendException(404, 'Hint not found.');
+        header('Location: index.php');
+        exit;
       }
 
       $currentUser = $this->authRepository->getUser();
@@ -210,7 +211,8 @@ class HintController
     if ($hintId) {
       $hintData = $this->hintRepository->getHintById($hintId);
       if ($hintData == null) {
-        HTTPException::sendException(404, 'Hint not found.');
+        header('Location: index.php');
+        exit;
       }
     }
 
