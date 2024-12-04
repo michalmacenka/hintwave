@@ -209,4 +209,34 @@ class AuthController
       HTTPException::sendException(400, 'Failed to update user role');
     }
   }
+
+  /**
+   * Delete a user
+   * 
+   * @param int $userId User ID to delete
+   * @return void
+   */
+  public function deleteUser(int $userId)
+  {
+    $this->protectedRoute(isAdminRoute: true);
+
+    // Check if user exists
+    $userToDelete = $this->authRepository->getUserById($userId);
+    if (!$userToDelete) {
+      HTTPException::sendException(404, 'User not found');
+    }
+
+    // Don't allow deleting yourself
+    $currentUser = $this->authRepository->getUser();
+    if ($currentUser->getId() === $userId) {
+      HTTPException::sendException(400, 'Cannot delete your own account');
+    }
+
+    $success = $this->authRepository->deleteUser($userId);
+    if ($success) {
+      HTTPException::sendException(200, 'User deleted successfully');
+    } else {
+      HTTPException::sendException(500, 'Failed to delete user');
+    }
+  }
 }

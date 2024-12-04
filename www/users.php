@@ -11,7 +11,21 @@ $authController = new AuthController($authRepository);
 // Ensure only admins can access this page
 $authController->protectedRoute(isAdminRoute: true);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+  $json = file_get_contents('php://input');
+  $data = json_decode($json, true);
+
+  if (!$data) {
+    HTTPException::sendException(400, 'Invalid JSON data');
+  }
+
+  if (CSRF::validate($data['csrf_token'])) {
+    $userId = (int)$data['userId'];
+    $authController->deleteUser($userId);
+  } else {
+    HTTPException::sendException(400, 'CSRF token is invalid');
+  }
+} else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $json = file_get_contents('php://input');
   $data = json_decode($json, true);
 

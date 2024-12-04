@@ -176,4 +176,32 @@ class AuthRepository
     $this->db->update($sql, [':newRole' => $newRole, ':userId' => $userId]);
     HTTPException::sendException(200, 'User role updated successfully.');
   }
+
+  /**
+   * Delete a user
+   * 
+   * @param int $userId User ID to delete
+   * @return bool Success status
+   */
+  public function deleteUser(int $userId): bool
+  {
+    try {
+      // Delete user's profile image if it exists
+      $user = $this->getUserById($userId);
+      if ($user) {
+        $imagePath = __DIR__ . '/../public/uploads/profiles/' . $user->getId() . '.webp';
+        if (file_exists($imagePath)) {
+          unlink($imagePath);
+        }
+      }
+
+      // Delete the user from database
+      $sql = "DELETE FROM users WHERE id = ?";
+      $this->db->delete($sql, [$userId]);
+      return true;
+    } catch (Exception $e) {
+      error_log("Failed to delete user: " . $e->getMessage());
+      return false;
+    }
+  }
 }
