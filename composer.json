@@ -1,0 +1,5 @@
+{
+  "scripts": {
+      "docs": "docker-compose up phpdoc"
+  }
+}

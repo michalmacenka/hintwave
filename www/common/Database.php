@@ -1,14 +1,35 @@
 <?php
 
+/**
+ * Database connection and manipulation class
+ * 
+ * Handles all database operations using PDO for MySQL connections
+ * 
+ * @package HintWave
+ * @author Your Name
+ */
 class Database
 {
+  /** @var string Database host */
   const HOST = 'mysql';
+
+  /** @var string Database name */
   const DBNAME = 'hintwave';
+
+  /** @var string Database user */
   const USER = 'root';
+
+  /** @var string Database password */
   const PASS = 'root';
 
+  /** @var PDO Database connection instance */
   private $conn;
 
+  /**
+   * Initialize database connection
+   * 
+   * @throws PDOException If connection fails
+   */
   public function __construct()
   {
     $this->conn = new PDO('mysql:host=' . self::HOST . ';dbname=' . self::DBNAME, self::USER, self::PASS, [
@@ -17,6 +38,14 @@ class Database
     $this->conn->query('SET NAMES utf8');
   }
 
+  /**
+   * Execute SELECT query
+   * 
+   * @param string $sql SQL query
+   * @param array $params Parameters to bind
+   * @return array Query results
+   * @throws PDOException If query fails
+   */
   public function select($sql, $params = [])
   {
     $stmt = $this->execute($sql, $params);

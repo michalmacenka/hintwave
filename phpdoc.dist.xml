@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpdoc>
+    <title>HintWave Documentation</title>
+    <parser>
+        <target>docs</target>
+        <encoding>utf8</encoding>
+    </parser>
+    <transformer>
+        <target>docs</target>
+    </transformer>
+    <transformations>
+        <template name="clean" />
+    </transformations>
+    <files>
+        <directory>www</directory>
+        <ignore>public/*</ignore>
+        <ignore>vendor/*</ignore>
+    </files>
+</phpdoc>

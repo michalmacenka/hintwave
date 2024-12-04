@@ -1,14 +1,35 @@
 <?php
 require_once __DIR__ . '/../models/Hint.php';
 
-
+/**
+ * Hint Controller Class
+ * 
+ * Handles hint-related operations in the system
+ * 
+ * @package HintWave\Controllers
+ */
 class HintController
 {
+  /** @var HintRepository */
   private $hintRepository;
+  /** @var CategoryRepository */
   private $categoryRepository;
+  /** @var AuthRepository */
   private $authRepository;
+  /** @var AuthController */
   private $authController;
+  /** @var ReasonRepository */
   private $reasonRepository;
+
+  /**
+   * Constructor
+   * 
+   * @param HintRepository $hintRepository Repository for hint operations
+   * @param CategoryRepository $categoryRepository Repository for category operations
+   * @param AuthRepository $authRepository Repository for auth operations
+   * @param AuthController $authController Controller for auth operations
+   * @param ReasonRepository $reasonRepository Repository for reason operations
+   */
   public function __construct(HintRepository $hintRepository, CategoryRepository $categoryRepository, AuthRepository $authRepository, AuthController $authController, ReasonRepository $reasonRepository)
   {
     $this->hintRepository = $hintRepository;
@@ -18,6 +39,11 @@ class HintController
     $this->reasonRepository = $reasonRepository;
   }
 
+  /**
+   * Display the hints list view with pagination
+   * 
+   * @return void
+   */
   public function showHintsView()
   {
     $page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
@@ -33,6 +59,12 @@ class HintController
     include 'views/layout.php';
   }
 
+  /**
+   * Display the add/edit hint form
+   * 
+   * @param int|null $editId Optional hint ID when editing
+   * @return void
+   */
   public function showAddHintView(?int $editId = null)
   {
     $this->authController->protectedRoute();
@@ -59,17 +91,23 @@ class HintController
     include 'views/layout.php';
   }
 
-
+  /**
+   * Add a new hint
+   * 
+   * @param string $title Hint title
+   * @param string $description Hint description
+   * @param int $categoryId Category ID
+   * @param array $reasons Array of reason strings
+   * @return void
+   */
   public function addHint($title, $description, $categoryId, array $reasons)
   {
     $this->authController->protectedRoute();
-
 
     Validator::isString($title, 'Title', 1, 256);
     Validator::isString($description, 'Description', 1, 1024);
     Validator::isInt($categoryId, 'Category');
     Validator::isStringArray($reasons, 'Reasons', 2, 12, 3, 64);
-
 
     $user = $this->authRepository->getUser();
     if ($user === null) {
@@ -82,12 +120,21 @@ class HintController
       HTTPException::sendException(400, 'Category does not exist.');
     }
 
-
     $hint = new Hint(0, $user, $title, $description, $category, [], date('Y-m-d H:i:s'));
     $this->hintRepository->addHint($hint, $reasons);
     HTTPException::sendException(200, 'Hint added successfully.');
   }
 
+  /**
+   * Update an existing hint
+   * 
+   * @param int $hintId ID of hint to update
+   * @param string $title New hint title
+   * @param string $description New hint description
+   * @param int $categoryId New category ID
+   * @param array $reasons New array of reason strings
+   * @return void
+   */
   public function updateHint($hintId, $title, $description, $categoryId, array $reasons)
   {
     $this->authController->protectedRoute();
@@ -112,6 +159,11 @@ class HintController
     HTTPException::sendException(200, 'Hint updated successfully');
   }
 
+  /**
+   * Display recommended hints view
+   * 
+   * @return void
+   */
   public function showRecommendedView()
   {
     ob_start();
@@ -123,6 +175,12 @@ class HintController
     include 'views/layout.php';
   }
 
+  /**
+   * Delete a hint
+   * 
+   * @param int $hintId ID of hint to delete
+   * @return void
+   */
   public function deleteHint(int $hintId)
   {
     $this->authController->protectedRoute();
@@ -140,9 +198,14 @@ class HintController
     HTTPException::sendException(200, 'Hint deleted successfully.');
   }
 
+  /**
+   * Display detailed view of a hint
+   * 
+   * @param int $hintId ID of hint to display
+   * @return void
+   */
   public function showHintDetail(int $hintId)
   {
-
     $hintData = null;
     if ($hintId) {
       $hintData = $this->hintRepository->getHintById($hintId);
@@ -150,7 +213,6 @@ class HintController
         HTTPException::sendException(404, 'Hint not found.');
       }
     }
-
 
     ob_start();
     $hint = $hintData ?? null;

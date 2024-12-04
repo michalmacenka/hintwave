@@ -1,12 +1,34 @@
 <?php
 
+/**
+ * Image Processor Class
+ * 
+ * Handles image processing operations including resizing and format conversion
+ * 
+ * @package HintWave\Common
+ */
 class ImageProcessor
 {
+  /** @var int Maximum image width */
   private const MAX_WIDTH = 150;
-  private const MAX_HEIGHT = 150;
-  private const UPLOAD_DIR = __DIR__ . '/../public/uploads/profiles/';
-  private const WEBP_QUALITY = 90; // 0-100
 
+  /** @var int Maximum image height */
+  private const MAX_HEIGHT = 150;
+
+  /** @var string Upload directory path */
+  private const UPLOAD_DIR = __DIR__ . '/../public/uploads/profiles/';
+
+  /** @var int WebP quality setting (0-100) */
+  private const WEBP_QUALITY = 90;
+
+  /**
+   * Process and save profile image
+   * 
+   * @param string $tmpPath Temporary file path
+   * @param int $userId User ID
+   * @throws Exception If image processing fails
+   * @return void
+   */
   public static function processProfileImage(string $tmpPath, int $userId): void
   {
     if (!file_exists(self::UPLOAD_DIR)) {

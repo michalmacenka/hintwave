@@ -1,16 +1,36 @@
 <?php
 require_once __DIR__ . '/../models/User.php';
 
-
+/**
+ * Authentication Repository Class
+ * 
+ * Handles user authentication, registration and session management
+ * 
+ * @package HintWave\Repositories
+ */
 class AuthRepository
 {
+  /** @var Database Database connection instance */
   private $db;
 
+  /**
+   * Creates a new AuthRepository instance
+   * 
+   * @param Database $db Database connection instance
+   */
   public function __construct(Database $db)
   {
     $this->db = $db;
   }
 
+  /**
+   * Register a new user
+   * 
+   * @param string $username Username
+   * @param string $birth Birth date
+   * @param string $password Password
+   * @return int ID of newly created user
+   */
   public function registerUser($username, $birth, $password): int
   {
     $sql = "INSERT INTO users (username, password, birth) VALUES (?, ?, ?)";
@@ -19,12 +39,24 @@ class AuthRepository
     return $this->db->insert($sql, [$username, $hash, $birth]);
   }
 
+  /**
+   * Get user by username
+   * 
+   * @param string $username Username to search for
+   * @return array|null User data array or null if not found
+   */
   public function getUserByUsername(string $username)
   {
     $sql = "SELECT * FROM users WHERE username = ?";
     return $this->db->select($sql, [$username]);
   }
 
+  /**
+   * Get user by ID
+   * 
+   * @param int $id User ID
+   * @return User|null User object or null if not found
+   */
   public function getUserById(int $id)
   {
     $sql = "SELECT * FROM users WHERE id = ?";
@@ -39,6 +71,11 @@ class AuthRepository
     return new User($row['id'], $row['username'], $row['birth'], $row['role'], $row['created_at']);
   }
 
+  /**
+   * Start PHP session if not already started
+   * 
+   * @return void
+   */
   public function startSession()
   {
     if (session_status() == PHP_SESSION_NONE) {
@@ -46,8 +83,11 @@ class AuthRepository
     }
   }
 
-
-
+  /**
+   * Log out current user and redirect to home page
+   * 
+   * @return void
+   */
   public function logout()
   {
     $this->startSession();
@@ -57,13 +97,22 @@ class AuthRepository
     exit();
   }
 
+  /**
+   * Check if user is currently logged in
+   * 
+   * @return bool True if user is logged in, false otherwise
+   */
   public function isLoggedIn()
   {
     $this->startSession();
     return isset($_SESSION['user']);
   }
 
-
+  /**
+   * Get currently logged in user
+   * 
+   * @return User|null User object if logged in, null otherwise
+   */
   public function getUser()
   {
     $this->startSession();
@@ -73,6 +122,12 @@ class AuthRepository
     }
   }
 
+  /**
+   * Set user session data
+   * 
+   * @param User $user User object to store in session
+   * @return void
+   */
   public function setUser(User $user)
   {
     $this->startSession();

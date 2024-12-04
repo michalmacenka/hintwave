@@ -35,3 +35,15 @@ services:
       PMA_HOST: mysql
     depends_on:
       - mysql
+  phpdoc:
+    image: phpdoc/phpdoc:3
+    volumes:
+      - ./www:/data/src
+      - ./docs:/data/docs
+    command: run -d /data/src -t /data/docs
+  docs:
+    image: nginx:alpine
+    ports:
+      - "8081:80"
+    volumes:
+      - ./docs:/usr/share/nginx/html
