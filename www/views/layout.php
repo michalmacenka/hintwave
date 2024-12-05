@@ -13,7 +13,7 @@ $user = $authRepository->getUser();
 ?>
 
 <!DOCTYPE html>
-<html lang="cs">
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
@@ -22,7 +22,7 @@ $user = $authRepository->getUser();
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" href="/public/styles/main.css">
 
-  <!-- <meta http-equiv="refresh" content="3"> * FOR DEV* -->
+
 </head>
 
 <body>

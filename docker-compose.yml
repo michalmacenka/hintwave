@@ -6,11 +6,14 @@ services:
       context: .
     depends_on:
       - mysql
+    environment:
+      - PORT=${PORT:-8080}
     volumes:
       - ./www:/var/www/html/
       - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+      - ./docs:/var/www/html/docs
     ports:
-        - 8000:80
+      - "${PORT:-8080}:8080"
   mysql:
     platform: linux/amd64
     container_name: mysql
@@ -28,11 +31,10 @@ services:
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     platform: linux/amd64
-    ports:
-      - '8080:80'
     restart: always
     environment:
       PMA_HOST: mysql
+      PMA_ABSOLUTE_URI: http://localhost:${PORT:-8080}/phpmyadmin/
     depends_on:
       - mysql
   phpdoc:
@@ -41,9 +43,3 @@ services:
       - ./www:/data/src
       - ./docs:/data/docs
     command: run -d /data/src -t /data/docs
-  docs:
-    image: nginx:alpine
-    ports:
-      - "8081:80"
-    volumes:
-      - ./docs:/usr/share/nginx/html

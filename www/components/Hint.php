@@ -10,7 +10,7 @@
   <box-icon name='calendar'></box-icon>
   <ul class="reasons">
     <?php foreach ($this->reasons as $reason): ?>
-      <li class="reason"><i class='bx bxs-star'></i></i>
+      <li class="reason"><i class='bx bxs-star'></i>
         <p><?php echo htmlspecialchars($reason->getValue()); ?></p>
       </li>
     <?php endforeach; ?>
