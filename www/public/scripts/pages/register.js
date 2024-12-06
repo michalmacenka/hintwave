@@ -126,10 +126,10 @@ document.querySelector('form').addEventListener('submit', async (event) => {
 
   // Validate password
   const password = form.password.value;
-  if (!password || password.length < 8 || !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.#^()+])[A-Za-z\d@$!%*?&.#^()+]{8,}$/.test(password)) {
+  if (!password || password.length < 8 || !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.#^()+_-])[A-Za-z\d@$!%*?&.#^()+_-]{8,}$/.test(password)) {
     errors.push({
       field: form.password,
-      message: 'Password must be at least 8 characters long, including uppercase, lowercase, number and special character'
+      message: 'Password must be at least 8 characters long, including uppercase, lowercase, number and one of these special characters (@$!%*?&.#^()+_-)'
     });
   }
 
@@ -229,7 +229,7 @@ document.querySelector('form').addEventListener('submit', async (event) => {
     
     const response = await fetchData('POST', 'register.php', data);
     if (response.status === 200) {
-      window.location.href = '/index.php';
+      window.location.href = '/~macenmic/index.php';
     }
   } catch (error) {
     const formErrorDiv = form.querySelector('#globalErrMsg');

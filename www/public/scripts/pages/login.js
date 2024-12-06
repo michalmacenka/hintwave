@@ -19,7 +19,7 @@ document.querySelector('form').addEventListener('submit', async (event) => {
     const response = await fetchData('POST', 'login.php', data);
 
     if (response.status === 200) {
-      window.location.href = '/index.php';
+      window.location.href = '/~macenmic/index.php';
     }
   } catch (error) {
     console.log(error);

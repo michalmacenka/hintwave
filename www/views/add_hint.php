@@ -61,7 +61,7 @@ $isEdit = isset($hint);
   </div>
   <div class="errMsg"></div>
 
-  <button type="button" class="add-reason-button">
+  <button type="button" class="add-reason-button" id="add-reason-button">
     <i class='bx bx-plus'></i>
     Add Another Reason
   </button>
@@ -76,3 +76,4 @@ $isEdit = isset($hint);
 
 <script src="/~macenmic/public/scripts/pages/hint.js" type="module"></script>
 <link rel="stylesheet" href="/~macenmic/public/styles/scoped/add-hint.css">
+

@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . "/../common/CSRF.php";
-?>
 
+?>
 
 
 <h1 class="mb-xl text-center">Register</h1>
@@ -27,7 +27,8 @@ require_once __DIR__ . "/../common/CSRF.php";
 
   <div class="form-group">
     <label for="birth_year" class="required">Birth date</label>
-    <div class="birthDateGroup flex gap-md">
+    <div class="birthDateGroup">
+        <div class="flex gap-md" >
       <select name="birth_year" id="birth_year" required>
         <?php
         $currentYear = date("Y");
@@ -53,8 +54,10 @@ require_once __DIR__ . "/../common/CSRF.php";
         }
         ?>
       </select>
-      <div class="errMsg"></div>
+</div>
+<div class="errMsg"></div>
     </div>
+
   </div>
 
   <div class="form-group">

@@ -68,8 +68,7 @@ $user = $authRepository->getUser();
   <main class="container">
     <?php echo $content; ?>
   </main>
+  <script src="/~macenmic/public/scripts/pages/admin.js" type="module"></script>
+  <link rel="stylesheet" href="/~macenmic/public/styles/scoped/layout.css">
 </body>
-<script src="/~macenmic/public/scripts/pages/admin.js" type="module"></script>
-<link rel="stylesheet" href="/~macenmic/public/styles/scoped/layout.css">
-
 </html>

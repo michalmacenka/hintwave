@@ -105,7 +105,12 @@ class AuthRepository
   public function isLoggedIn()
   {
     $this->startSession();
-    return isset($_SESSION['user']);
+    if (!isset($_SESSION['user'])) {
+      return false;
+    }
+    
+    $user = $this->getUserById($_SESSION['user']['id']);
+    return $user !== null;
   }
 
   /**

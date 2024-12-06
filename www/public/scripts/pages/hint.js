@@ -11,7 +11,6 @@ document.querySelector('form').addEventListener('submit', async (event) => {
 
   const errors = [];
   const form = event.target;
-  const isEdit = form.querySelector('input[name="hint_id"]') !== null;
 
   // Validate title (1-256 characters)
   const title = form.title.value.trim();
@@ -79,16 +78,16 @@ document.querySelector('form').addEventListener('submit', async (event) => {
       csrf_token: form.querySelector('input[name="csrf_token"]').value
     };
 
-    console.log(data);
 
-    if (isEdit) {
+    if (form.querySelector('input[name="hint_id"]') !== null) {
       data.hint_id = form.querySelector('input[name="hint_id"]').value;
     }
 
     const response = await fetchData('POST', 'add.php', data);
 
     if (response.status === 200) {
-      window.location.href = isEdit ? `/index.php?id=${data.hint_id}` : `/index.php`;
+      let hintId = response.body.message;
+      window.location.href = `/~macenmic/index.php?id=${hintId}`;
     }
   } catch (error) {
     console.error(error);
@@ -106,6 +105,13 @@ const showError = (input, message) => {
   }
 }
 
+const updateReasonPlaceholders = () => {
+  const reasonInputs = document.querySelectorAll('.reason-input input');
+  reasonInputs.forEach((input, index) => {
+    input.placeholder = `Reason ${index + 1}`;
+  });
+}
+
 window.removeReason = function(button) {
   const reasonInput = button.closest('.reason-input');
   const totalReasons = document.querySelectorAll('.reason-input').length;
@@ -115,6 +121,7 @@ window.removeReason = function(button) {
     if (totalReasons <= 12) {
       document.getElementById('add-reason-button').style.display = 'flex';
     }
+    updateReasonPlaceholders();
   }
 }
 

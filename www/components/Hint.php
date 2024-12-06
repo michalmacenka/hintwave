@@ -1,5 +1,5 @@
 <div class="hint gradient-primary" data-hint-id="<?php echo $this->getId(); ?>">
-  <a href="index.php?id=<?= $this->getId() ?>">
+  <a href="/~macenmic/index.php?id=<?= $this->getId() ?>">
     <h3><?php echo htmlspecialchars($this->title); ?> <span class="badge"><?php echo htmlspecialchars($this->category->getName()); ?></span> </h3>
   </a>
   <div class="hint-user m-0">
@@ -25,7 +25,7 @@
     <?php endif; ?>
 
     <?php if ($currentUser && ($currentUser->getId() === $this->user->getId() || $currentUser->isAdmin())): ?>
-      <a href="/add.php?edit=<?= $this->getId() ?>">
+      <a href="/~macenmic/add.php?edit=<?= $this->getId() ?>">
         <i class='bx bx-edit'></i>
         Edit Hint
       </a>

@@ -18,8 +18,12 @@ $authController = new AuthController($authRepository);
 $hintRepository = new HintRepository($db, $categoryRepository, $reasonRepository, $authRepository);
 $hintController = new HintController($hintRepository, $categoryRepository, $authRepository, $authController, $reasonRepository);
 
-if (isset($_GET['id'])) {
+if (isset($_GET['id']) && $_GET['id'] !== null) {
   $hintId = (int)$_GET['id'];
+  if ($hintId <= 0) {
+    header('Location: /~macenmic/hints.php');
+    exit;
+  }
   $hintController->showHintDetail($hintId);
 } else {
   $hintController->showRecommendedView();

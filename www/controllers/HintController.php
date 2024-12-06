@@ -122,8 +122,8 @@ class HintController
     }
 
     $hint = new Hint(0, $user, $title, $description, $category, [], date('Y-m-d H:i:s'));
-    $this->hintRepository->addHint($hint, $reasons);
-    HTTPException::sendException(200, 'Hint added successfully.');
+    $hintId = $this->hintRepository->addHint($hint, $reasons);
+    HTTPException::sendException(200, (string)$hintId);
   }
 
   /**
@@ -157,7 +157,7 @@ class HintController
     $this->hintRepository->updateHint($hintId, $title, $description, $categoryId);
     $this->reasonRepository->updateReasons($hintId, $reasons);
 
-    HTTPException::sendException(200, 'Hint updated successfully');
+    HTTPException::sendException(200, (string)$hintId);
   }
 
   /**

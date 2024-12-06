@@ -74,8 +74,8 @@ class AuthController
       HTTPException::sendException(400, 'Username already exists.');
     }
 
-    if ((new DateTime())->diff($birth)->y < 15) {
-      HTTPException::sendException(400, 'You must be at least 15 years old to register.');
+    if ((new DateTime())->diff($birth)->y < 13) {
+      HTTPException::sendException(400, 'You must be at least 13 years old to register.');
     }
 
     $userId = $this->authRepository->registerUser($username, $birth->format('Y-m-d'), $password);
@@ -96,6 +96,7 @@ class AuthController
     }
 
     $this->login($username, $password);
+    HTTPException::sendException(200, 'User registered successfully.');
   }
 
   /**
@@ -135,6 +136,8 @@ class AuthController
     $this->authRepository->startSession();
     $user = $this->authRepository->getUser();
     $isLoggedIn = $this->authRepository->isLoggedIn();
+
+
 
     if ($blockLoggedUsers && $isLoggedIn) {
       header('Location: index.php');

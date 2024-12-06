@@ -48,12 +48,12 @@ class Validator
   /**
    * Check if the value matches a valid password pattern. If not, throw an HTTPException with code 400.
    */
-  public static function isPassword(mixed $value, string $fieldName, int $minLength = 8, string $message = "is not a valid password. Must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character."): void
+  public static function isPassword(mixed $value, string $fieldName, int $minLength = 8, string $message = "is not a valid password. Must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character (@$!%*?&.#^()+_-)"): void
   {
     Validator::isRequired($value, $fieldName);
     Validator::isString($value, $fieldName, $minLength);
 
-    if (!preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.#^()+])[A-Za-z\d@$!%*?&.#^()+]{8,}$/", $value)) {
+    if (!preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.#^()+_-])[A-Za-z\d@$!%*?&.#^()+_-]{8,}$/", $value)) {
       HTTPException::sendException(400, "{$fieldName} {$message}");
     }
   }
