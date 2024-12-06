@@ -20,7 +20,7 @@ $user = $authRepository->getUser();
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HintWave</title>
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-  <link rel="stylesheet" href="/public/styles/main.css">
+  <link rel="stylesheet" href="/~macenmic/public/styles/main.css">
 
 
 </head>
@@ -69,7 +69,7 @@ $user = $authRepository->getUser();
     <?php echo $content; ?>
   </main>
 </body>
-<script src="/public/scripts/pages/admin.js" type="module"></script>
-<link rel="stylesheet" href="/public/styles/scoped/layout.css">
+<script src="/~macenmic/public/scripts/pages/admin.js" type="module"></script>
+<link rel="stylesheet" href="/~macenmic/public/styles/scoped/layout.css">
 
 </html>

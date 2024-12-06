@@ -11,16 +11,16 @@
 class Database
 {
   /** @var string Database host */
-  const HOST = 'mysql';
+  const HOST = 'localhost';
 
   /** @var string Database name */
-  const DBNAME = 'hintwave';
+  const DBNAME = 'macenmic';
 
   /** @var string Database user */
-  const USER = 'root';
+  const USER = 'macenmic';
 
   /** @var string Database password */
-  const PASS = 'root';
+  const PASS = 'webove aplikace';
 
   /** @var PDO Database connection instance */
   private $conn;

@@ -74,5 +74,5 @@ $isEdit = isset($hint);
 
 
 
-<script src="/public/scripts/pages/hint.js" type="module"></script>
-<link rel="stylesheet" href="/public/styles/scoped/add-hint.css">
+<script src="/~macenmic/public/scripts/pages/hint.js" type="module"></script>
+<link rel="stylesheet" href="/~macenmic/public/styles/scoped/add-hint.css">

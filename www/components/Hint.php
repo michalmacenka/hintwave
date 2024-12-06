@@ -33,4 +33,4 @@
   </div>
 </div>
 
-<link rel="stylesheet" href="/public/styles/scoped/hint.css">
+<link rel="stylesheet" href="/~macenmic/public/styles/scoped/hint.css">

@@ -88,5 +88,5 @@ require_once __DIR__ . "/../common/CSRF.php";
 
 </form>
 
-<script src="/public/scripts/pages/register.js" type="module"></script>
-<link rel="stylesheet" href="/public/styles/scoped/register.css">
+<script src="/~macenmic/public/scripts/pages/register.js" type="module"></script>
+<link rel="stylesheet" href="/~macenmic/public/styles/scoped/register.css">

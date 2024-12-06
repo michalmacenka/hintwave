@@ -9,7 +9,7 @@ require_once __DIR__ . "/../common/CSRF.php";
     <?php foreach ($users as $user): ?>
       <div class="user-card glass">
         <div class="user-info">
-          <img src="/public/uploads/profiles/<?= $user->getProfileImage() ?>" alt="Profile image" class="profile-image">
+          <img src="/~macenmic/public/uploads/profiles/<?= $user->getProfileImage() ?>" alt="Profile image" class="profile-image">
           <div class="user-details">
             <h3><?= htmlspecialchars($user->getUsername()) ?></h3>
             <p>Joined: <?= date('n.j.Y', strtotime($user->getCreatedAt())) ?></p>
@@ -40,5 +40,5 @@ require_once __DIR__ . "/../common/CSRF.php";
   </div>
 </div>
 
-<link rel="stylesheet" href="/public/styles/scoped/admin-users.css">
-<script src="/public/scripts/pages/admin_users.js" type="module"></script>
+<link rel="stylesheet" href="/~macenmic/public/styles/scoped/admin-users.css">
+<script src="/~macenmic/public/scripts/pages/admin_users.js" type="module"></script>

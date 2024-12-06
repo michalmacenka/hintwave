@@ -21,4 +21,4 @@ require_once __DIR__ . "/../common/CSRF.php";
   <div class="errMsg" id="globalErrMsg"></div>
 </form>
 
-<script src="/public/scripts/pages/login.js" type="module"></script>
+<script src="/~macenmic/public/scripts/pages/login.js" type="module"></script>

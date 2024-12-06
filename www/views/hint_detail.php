@@ -41,4 +41,4 @@ require_once __DIR__ . '/../common/CSRF.php';
   </a>
 </div>
 
-<link rel="stylesheet" href="/public/styles/scoped/hint-detail.css">
+<link rel="stylesheet" href="/~macenmic/public/styles/scoped/hint-detail.css">
