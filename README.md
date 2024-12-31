@@ -4,6 +4,10 @@
 default login
 username: test
 password: Test+1234
+
+admin login
+username: admin
+password: Admin+1234
 ```
 
 ### Gen. DOCS - https://zwa.toad.cz/~macenmic/public/docs
